@@ -8,7 +8,8 @@ target 'D.Life' do
   use_frameworks!
 
   # Pods for D.Life
-pod "RKPieChart"
+pod 'RKPieChart'
 pod 'Alamofire'
+pod 'BSImagePicker'
 
 end
