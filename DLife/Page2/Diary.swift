@@ -20,7 +20,6 @@ struct Diary {
     
     
     static func add(diary: Diary) {
-        all = [Diary]()
         all.append(diary)
     }
 }
