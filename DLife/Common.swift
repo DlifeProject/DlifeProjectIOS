@@ -12,8 +12,9 @@ import Alamofire
 
 
 // result :server傳回來的結果 回來是json就轉成字典
-typealias DoneHandler = (_ error:Error?, _ result:[String:Any]?) -> Void
-typealias DownloadDoneHandler = (_ error:Error?, _ result:Data?) -> Void
+typealias DoneHandler1 = (_ error:Error?, _ result:[String:Any]?) -> Void
+typealias DoneHandler2 = (_ error:Error?, _ result:[[String:Any]]?) -> Void
+typealias DownloadDoneHandler = (_ error:Error?, _ result: Data?) -> Void
 
 class Common {
     
@@ -34,60 +35,101 @@ class Common {
     
     
     // MARK: 上傳下載文字Dictionary
-    func text(jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler) {
+    func text(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler1) {
         
-        doPost(urlString: "http://114.34.110.248:7070/Dlife/test", parameters: jsonDictionary, doneHandler: doneHandler)
+        let action = jsonDictionary["action"] as! String
+        
+        doPost(action: action, urlString: "http://114.34.110.248:7070/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+    }
+    
+    // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
+    func text(api: String, jsonDictionary: Dictionary<String, Any>, jsonRow: Int , doneHandler:@escaping DoneHandler2) {
+        
+        let action = jsonDictionary["action"] as! String
+        
+        doPost(action: action, urlString: "http://114.34.110.248:7070/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     
     
     // MARK: doPost
-    func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler) {
+    func doPost(action: String, urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler1) {
 
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
-            self.handleResponse(response, doneHandler: doneHandler)
+            self.handleResponse(response, action: action, doneHandler: doneHandler)
+            
+        }
+    }
+    
+    // MARK: doPost(Dictionary包Dictionary型)
+    func doPost(action: String, urlString:String, parameters:[String:Any], jsonRow: Int, doneHandler:@escaping DoneHandler2) {
+        
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
+            self.handleResponse(response, action: action, jsonRow: jsonRow, doneHandler: doneHandler)
             
         }
     }
     
     // MARK: handleResponse
-    func handleResponse(_ response:DataResponse<Any>, doneHandler:DoneHandler) {
+    func handleResponse(_ response:DataResponse<Any>, action: String,  doneHandler:DoneHandler1) {
         switch response.result {
-        case.success(let json):
-            NSLog("doPost success with result: \(json)")
-            // 因為這邊 Alamofire 都處理過 不太可能為 nil 所以幾乎用!
-            let resultJSON = json as! [String:Any]
-            
-            print(resultJSON)
-            
-            //let serverResult = resultJSON.first?.value
-            let serverResult = resultJSON["memberProfile"] as! String
-            print(serverResult)
-            
-            // 把json變成Data型別 讓他可以去序列化解包json
-            let data = serverResult.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-            
-            print(data)
-            // 接下來把剛剛那個data 把裡面每個東西 轉成key and value
-            // 類似android我們在解一個json object
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                print(json)
+            case .success(let json):
+                print("doPOST success with result: \(json)")   //json String
                 
-                // 成功取出可以把結果給 doneHandler東西了 [String: Any]
+                let resultJSON1 = json as! [String:Any]
+                print("1: \n \(resultJSON1)")
+                let resultJSON2 = resultJSON1[action]! as! String
+                print("2: \n \(resultJSON2)")
+                
+                let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                    print("json: \n \(json)")
+                    
+                    doneHandler(nil, json)
+                    
+                } catch let error as NSError {
+                    print("Failed to load: \(error.localizedDescription)")
+            }
+
+            case .failure(let error):
+                NSLog("doPOST fail with error: \(error)")
+                doneHandler(error, nil)
+            }
+        
+    }
+    
+    // MARK: handleResponse (Dictionary包Dictionary型)
+    func handleResponse(_ response:DataResponse<Any>, action: String, jsonRow: Int,  doneHandler:DoneHandler2) {
+        switch response.result {
+        case .success(let json):
+            print("doPOST success with result: \(json)")   //json String
+            
+            let resultJSON1 = json as! [String:Any]
+            print("1: \n \(resultJSON1)")
+            let resultJSON2 = resultJSON1[action]! as! String
+            print("2: \n \(resultJSON2)")
+            
+            let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [[String: Any]]
+                print("json: \n \(json)")
+                
                 doneHandler(nil, json)
                 
             } catch let error as NSError {
                 print("Failed to load: \(error.localizedDescription)")
             }
-            
 
-        case.failure(let error):
-            NSLog("doPost fail with error: \(error)")
+            
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
             doneHandler(error, nil)
         }
+        
     }
   
-    
     // MARK: 生成URL
     static func fileURL(fileKey: String) -> URL {
         //生成路經
