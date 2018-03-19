@@ -9,6 +9,7 @@
 import UIKit
 import RKPieChart
 
+
 class PieChartVC: UIViewController {
     
     @IBOutlet weak var sinceDate: UITextField!
@@ -23,6 +24,10 @@ class PieChartVC: UIViewController {
     let formatter = DateFormatter()
     var todayBefore = NSDate()
     var endDateSelect = NSDate()
+    
+    static var startDateString: String!
+    static var endDateString: String!
+
         
     override func viewDidLoad() {
         
@@ -31,12 +36,19 @@ class PieChartVC: UIViewController {
         formatter.dateFormat = "yyyy/MM/dd"
         let todayString = formatter.string(from: today as Date)
         endDate.text = "\(todayString)"
-        todayBefore = today.addingTimeInterval(-60 * 60 * 24 * 2)
+        todayBefore = today.addingTimeInterval(-60 * 60 * 24 * 7)
         let todayBeforeString = formatter.string(from: todayBefore as Date)
         sinceDate.text = "\(todayBeforeString)"
         pieChart(Shopping: 20, Hobby: 20, Learning: 20, Travel: 20, Work: 20)
+        
+        // 用成sever的時間格式
+        formatter.dateFormat = "yyyy-MM-dd"
+        PieChartVC.endDateString = formatter.string(from: today as Date)
+        PieChartVC.startDateString = formatter.string(from: todayBefore as Date)
+        
         creatSinceDatePicker()
         creatEndDatePicker()
+        
         
         
         
@@ -139,6 +151,8 @@ class PieChartVC: UIViewController {
         let dateString = formatter.string(from: sinceDatePicker.date)
         todayBefore = sinceDatePicker.date as NSDate
         sinceDate.text = "\(dateString)"
+        formatter.dateFormat = "yyyy-MM-dd"
+        PieChartVC.startDateString = formatter.string(from: sinceDatePicker.date)
         self.view.endEditing(true)
         creatSinceDatePicker()
         creatEndDatePicker()
@@ -155,6 +169,8 @@ class PieChartVC: UIViewController {
         let dateString = formatter.string(from: endDatePicker.date)
         endDateSelect = endDatePicker.date as NSDate
         endDate.text = "\(dateString)"
+        formatter.dateFormat = "yyyy-MM-dd"
+        PieChartVC.endDateString = formatter.string(from: endDatePicker.date)
         self.view.endEditing(true)
         creatSinceDatePicker()
         creatEndDatePicker()
@@ -166,11 +182,11 @@ class PieChartVC: UIViewController {
     
     func pieChart(Shopping: Int, Hobby: Int, Learning: Int, Travel: Int, Work: Int) {
        
-        let Shopping: RKPieChartItem = RKPieChartItem(ratio: uint(Shopping), color: UIColor.orange, title: "Shopping ")
-        let Hobby: RKPieChartItem = RKPieChartItem(ratio: uint(Hobby), color: UIColor.red, title: "Hobby")
-        let Learning: RKPieChartItem = RKPieChartItem(ratio: uint(Learning), color: UIColor.yellow, title: "Learning")
-        let Travel: RKPieChartItem = RKPieChartItem(ratio: uint(Travel), color: UIColor.green, title: "Travel")
-        let Work: RKPieChartItem = RKPieChartItem(ratio: uint(Work), color: UIColor.blue, title: "Work")
+        let Shopping: RKPieChartItem = RKPieChartItem(ratio: uint(Shopping), color: UIColor(rgb: 0x1C836E), title: "Shopping ")
+        let Hobby: RKPieChartItem = RKPieChartItem(ratio: uint(Hobby), color: UIColor(rgb: 0x7AD4BC) , title: "Hobby")
+        let Learning: RKPieChartItem = RKPieChartItem(ratio: uint(Learning), color: UIColor(rgb: 0x2B3D41), title: "Learning")
+        let Travel: RKPieChartItem = RKPieChartItem(ratio: uint(Travel), color: UIColor(rgb: 0x4C5F6B), title: "Travel")
+        let Work: RKPieChartItem = RKPieChartItem(ratio: uint(Work), color: UIColor(rgb: 0x83A0A0), title: "Work")
         
         let chartView = RKPieChartView(items: [Shopping, Hobby, Learning, Travel, Work], centerTitle: "D.Life")
         chartView.circleColor = .clear
@@ -189,6 +205,31 @@ class PieChartVC: UIViewController {
         
     }
     
+    // 把Button上面的字送到下一頁
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let category = sender as! UIButton
+        let controller = segue.destination as! DiaryViewVC
+        controller.category = category.currentTitle
+    }
+
 }
 
 
+// 轉色碼的方法
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
+}

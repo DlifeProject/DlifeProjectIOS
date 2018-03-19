@@ -90,6 +90,8 @@ class Common {
                     
                 } catch let error as NSError {
                     print("Failed to load: \(error.localizedDescription)")
+                    doneHandler(error, nil)
+
             }
 
             case .failure(let error):
@@ -107,7 +109,13 @@ class Common {
             
             let resultJSON1 = json as! [String:Any]
             print("1: \n \(resultJSON1)")
-            let resultJSON2 = resultJSON1[action]! as! String
+            var resultJSON2: String
+            
+            if action == "getDiaryBetweenDays" {
+                resultJSON2 = resultJSON1["getDiary"]! as! String
+            } else {
+                resultJSON2 = resultJSON1[action]! as! String
+            }
             print("2: \n \(resultJSON2)")
             
             let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
@@ -120,6 +128,8 @@ class Common {
                 
             } catch let error as NSError {
                 print("Failed to load: \(error.localizedDescription)")
+                doneHandler(error, nil)
+
             }
 
             

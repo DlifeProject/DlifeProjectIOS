@@ -34,7 +34,6 @@ class Page3VC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.separatorStyle = .none
         
 

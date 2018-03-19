@@ -40,7 +40,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZy-aM-ydG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="535.20000000000005" y="671.51424287856082"/>
+            <point key="canvasLocation" x="-546" y="796"/>
         </scene>
         <!--Page1-->
         <scene sceneID="iNd-Br-NYR">
@@ -50,7 +50,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J2l-u0-ku2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2286" y="383"/>
+            <point key="canvasLocation" x="-1367" y="435"/>
         </scene>
         <!--Page2-->
         <scene sceneID="Tm2-o0-Nsr">
@@ -60,7 +60,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gv2-Bd-vGU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1561" y="382"/>
+            <point key="canvasLocation" x="-1168" y="435"/>
         </scene>
         <!--Page3-->
         <scene sceneID="DjV-n7-kJj">
@@ -70,7 +70,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EsW-PA-rus" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-523" y="384"/>
+            <point key="canvasLocation" x="-862" y="435"/>
         </scene>
         <!--Page4VC-->
         <scene sceneID="PHl-VQ-2l1">
@@ -78,7 +78,7 @@
                 <viewControllerPlaceholder storyboardName="Page4" referencedIdentifier="Page4VC" id="lN0-0p-jwZ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atA-dZ-tSg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="195" y="1151"/>
+            <point key="canvasLocation" x="-547" y="1278"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ZXD-Rg-lWb">
@@ -104,7 +104,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="0.47929412126541138" green="0.83270448446273804" blue="0.73724877834320068" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="0.47843137254901957" green="0.83137254901960778" blue="0.73725490196078436" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="selectedImageTintColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">

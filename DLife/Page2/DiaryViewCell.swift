@@ -47,8 +47,7 @@ class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         return cell
     }
     
-
-    
+   
     override func awakeFromNib() {
         super.awakeFromNib()
         let image = Image(DiaryImage: #imageLiteral(resourceName: "ExPhoto"))
@@ -56,7 +55,6 @@ class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         images = Image.all
         ImageView.reloadData()
     }
-    
 
 
 }
