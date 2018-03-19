@@ -36,16 +36,32 @@ class Common {
     static let FRIEND_URL="friend"
     //static var UUID:String!
     
+    static let PREFFERENCES_USER_ACCOUNT = "userAccount";
+    static let PREFFERENCES_USER_PASSWORD = "userPassword";
+    static let PREFFERENCES_UUID = "userUUID";
+    static let PREFFERENCES_NICKNAME = "nickname";
+    static let PREFFERENCES_USER_LAST_LOGIN_DATE = "loginDate";
+    static let PREFFERENCES_BIRTHDAY = "birthday";
+    
     
     
     // MARK: 上傳下載文字Dictionary
-    func text(jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler) {
-        doPost(urlString: "http://114.34.110.248:7070/Dlife/test", parameters: jsonDictionary, doneHandler: doneHandler)
+    func text(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler1) {
+        let action = jsonDictionary["action"] as! String
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
+    }
+    
+    // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
+    func text(api: String, jsonDictionary: Dictionary<String, Any>, jsonRow: Int , doneHandler:@escaping DoneHandler2) {
+        
+        let action = jsonDictionary["action"] as! String
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     
     
     // MARK: doPost
-    func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler) {
+    func doPost(action: String, urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler1) {
+        
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, action: action, doneHandler: doneHandler)
             
@@ -64,15 +80,50 @@ class Common {
     // MARK: handleResponse
     func handleResponse(_ response:DataResponse<Any>, action: String,  doneHandler:DoneHandler1) {
         switch response.result {
-        case.success(let json):
-            NSLog("doPost success with result: \(json)")
-            // 因為這邊 Alamofire 都處理過 不太可能為 nil 所以幾乎用!
-            let resultJSON = json as! [String:Any]
-            print(resultJSON)
+        case .success(let json):
+            print("doPOST success with result: \(json)")   //json String
             
             let resultJSON1 = json as! [String:Any]
             print("1: \n \(resultJSON1)")
             let resultJSON2 = resultJSON1[action]! as! String
+            print("2: \n \(resultJSON2)")
+            
+            let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                print("json: \n \(json)")
+                
+                doneHandler(nil, json)
+                
+            } catch let error as NSError {
+                print("Failed to load: \(error.localizedDescription)")
+                doneHandler(error, nil)
+                
+            }
+            
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
+            doneHandler(error, nil)
+        }
+        
+    }
+    
+    // MARK: handleResponse (Dictionary包Dictionary型)
+    func handleResponse(_ response:DataResponse<Any>, action: String, jsonRow: Int,  doneHandler:DoneHandler2) {
+        switch response.result {
+        case .success(let json):
+            print("doPOST success with result: \(json)")   //json String
+            
+            let resultJSON1 = json as! [String:Any]
+            print("1: \n \(resultJSON1)")
+            var resultJSON2: String
+            
+            if action == "getDiaryBetweenDays" {
+                resultJSON2 = resultJSON1["getDiary"]! as! String
+            } else {
+                resultJSON2 = resultJSON1[action]! as! String
+            }
             print("2: \n \(resultJSON2)")
             
             let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
@@ -85,10 +136,13 @@ class Common {
                 
             } catch let error as NSError {
                 print("Failed to load: \(error.localizedDescription)")
+                doneHandler(error, nil)
+                
             }
             
-        case.failure(let error):
-            NSLog("doPost fail with error: \(error)")
+            
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
             doneHandler(error, nil)
         }
         
@@ -113,7 +167,6 @@ class Common {
     // android的imageSize=下方來取得view的寬
     //let screenWidth = self.view.frame.width
     func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
-        
         
         Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in switch response.result{
         case .success(let json):
@@ -194,6 +247,17 @@ class Common {
         }
         return returnJsonObject
     }
+    
+    static func getJSONStringFromDictionary(dictionary:NSDictionary) -> String {
+        if (!JSONSerialization.isValidJSONObject(dictionary)) {
+            NSLog("無法解析JSONString")
+            return ""
+        }
+        let data : NSData! = try? JSONSerialization.data(withJSONObject: dictionary, options: []) as NSData!
+        let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
+        return JSONString! as String
+    }
+
    
     static func updateMemberPlistDefault(fileKey: String, dictionary: Dictionary<String, Any>) -> () {
         //prepare file name
@@ -209,12 +273,6 @@ class Common {
         
     }
     
-   static let PREFFERENCES_USER_ACCOUNT = "userAccount";
-   static let PREFFERENCES_USER_PASSWORD = "userPassword";
-   static let PREFFERENCES_UUID = "userUUID";
-   static let PREFFERENCES_NICKNAME = "nickname";
-   static let PREFFERENCES_USER_LAST_LOGIN_DATE = "loginDate";
-   static let PREFFERENCES_BIRTHDAY = "birthday";
     
     
     // MARK: 製作基本Dictionary

@@ -43,24 +43,14 @@ class Login: UIViewController,UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    
-    func getJSONStringFromDictionary(dictionary:NSDictionary) -> String {
-        if (!JSONSerialization.isValidJSONObject(dictionary)) {
-            NSLog("無法解析JSONString")
-            return ""
-        }
-        let data : NSData! = try? JSONSerialization.data(withJSONObject: dictionary, options: []) as NSData!
-        let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
-        return JSONString! as String
-    }
-    
+
     func webLogin(_ account: String, password:String) {
         
         memberProfileDictionary.updateValue(account, forKey: Common.PREFFERENCES_USER_ACCOUNT)
         memberProfileDictionary.updateValue(password, forKey: Common.PREFFERENCES_USER_PASSWORD)
         
         let memberProfile = ["ios_user_id":"iOS","app_account":account,"app_pwd":password,"sex":0] as Dictionary<String,Any>
-        let memberProfileJsonString = getJSONStringFromDictionary(dictionary: memberProfile as NSDictionary)
+        let memberProfileJsonString = Common.getJSONStringFromDictionary(dictionary: memberProfile as NSDictionary)
         let memberLoginJson = ["action":"login", "member":memberProfileJsonString] as Dictionary<String,Any>
         
         doWebLogin(parameters: memberLoginJson ){
