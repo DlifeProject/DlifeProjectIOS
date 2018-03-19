@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5949A76D205F824700C03B20 /* Data+HexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5949A76C205F824700C03B20 /* Data+HexString.swift */; };
+		59BB0BB0205BC21800DDADA1 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BB0BAF205BC21800DDADA1 /* Login.swift */; };
 		9F289609205BA131008380A7 /* DiaryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F2895FE205BA130008380A7 /* DiaryModel.xcdatamodeld */; };
 		9F28960A205BA131008380A7 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F289600205BA130008380A7 /* DiaryViewController.swift */; };
 		9F28960C205BA131008380A7 /* Communicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F289603205BA131008380A7 /* Communicator.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5949A76C205F824700C03B20 /* Data+HexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+HexString.swift"; sourceTree = "<group>"; };
+		59BB0BAF205BC21800DDADA1 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		7834C33195BE8244797910C8 /* Pods_D_Life.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_D_Life.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F2895FF205BA130008380A7 /* DiaryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryModel.xcdatamodel; sourceTree = "<group>"; };
 		9F289600205BA130008380A7 /* DiaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 				AC177EEB2058F80B00DA4997 /* Common.swift */,
 				AC89EB682043A0B80059344C /* LaunchScreen.storyboard */,
 				AC89EB6B2043A0B80059344C /* Info.plist */,
+				59BB0BAF205BC21800DDADA1 /* Login.swift */,
+				5949A76C205F824700C03B20 /* Data+HexString.swift */,
 			);
 			path = DLife;
 			sourceTree = "<group>";
@@ -365,6 +371,7 @@
 				9F289611205BA131008380A7 /* CoredataManger.swift in Sources */,
 				AC802FAE204FB52A00CC3874 /* PieChartVC.swift in Sources */,
 				AC89EB602043A0B80059344C /* AppDelegate.swift in Sources */,
+				59BB0BB0205BC21800DDADA1 /* Login.swift in Sources */,
 				AC89EB7A2043B9C90059344C /* Page3VC.swift in Sources */,
 				AC89EB782043B9B80059344C /* Page2VC.swift in Sources */,
 				9F28960A205BA131008380A7 /* DiaryViewController.swift in Sources */,
@@ -377,6 +384,7 @@
 				9F289610205BA131008380A7 /* Update.swift in Sources */,
 				AC802FB2204FB7AA00CC3874 /* PageViewController.swift in Sources */,
 				AC177F5E205AA29300DA4997 /* TestViewController.swift in Sources */,
+				5949A76D205F824700C03B20 /* Data+HexString.swift in Sources */,
 				9F28960D205BA131008380A7 /* DiaryTableViewCell.swift in Sources */,
 				AC802FBF2051022C00CC3874 /* DiaryViewCell.swift in Sources */,
 				AC802FC72051388300CC3874 /* Image.swift in Sources */,
@@ -530,8 +538,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2C96CYR5K8;
+				DEVELOPMENT_TEAM = S7W7NX3HN6;
 				INFOPLIST_FILE = DLife/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.allen.D.Life;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -546,8 +555,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2C96CYR5K8;
+				DEVELOPMENT_TEAM = S7W7NX3HN6;
 				INFOPLIST_FILE = DLife/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.allen.D.Life;
 				PRODUCT_NAME = "$(TARGET_NAME)";

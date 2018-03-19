@@ -18,11 +18,11 @@ typealias DownloadDoneHandler = (_ error:Error?, _ result:Data?) -> Void
 class Common {
     
     static let shared = Common()
-    
     private init() {
-        
     }
-    static let BASEURL="http://114.34.110.248:7070/Dlife/"
+    
+    //static let BASEURL="http://114.34.110.248:7070/Dlife/"
+    static let BASEURL="http://192.168.196.86:8080/Dlife/"
     static let PHOTO_URL="photo"
     static let TEST_URL="test"
     static let DIARY_URL="diary"
@@ -30,19 +30,18 @@ class Common {
     static let SUMMARY_URL="summary"
     static let MAPAPI_URL="mapapi"
     static let FRIEND_URL="friend"
+    //static var UUID:String!
     
     
     
     // MARK: 上傳下載文字Dictionary
     func text(jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler) {
-        
         doPost(urlString: "http://114.34.110.248:7070/Dlife/test", parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     
     // MARK: doPost
     func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler) {
-
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, doneHandler: doneHandler)
             
@@ -56,7 +55,6 @@ class Common {
             NSLog("doPost success with result: \(json)")
             // 因為這邊 Alamofire 都處理過 不太可能為 nil 所以幾乎用!
             let resultJSON = json as! [String:Any]
-            
             print(resultJSON)
             
             //let serverResult = resultJSON.first?.value
@@ -80,7 +78,6 @@ class Common {
                 print("Failed to load: \(error.localizedDescription)")
             }
             
-
         case.failure(let error):
             NSLog("doPost fail with error: \(error)")
             doneHandler(error, nil)
@@ -123,6 +120,60 @@ class Common {
         
         return json
     }
+    
+    // Mark: plist defalut file 讀取 - Regan
+    static func plistLoadDefault(fileKey: String, dictionary: Dictionary<String, Any>) -> Dictionary<String, Any> {
+        
+        //prepare file name
+        let fileURL = self.fileURL(fileKey: fileKey)
+        
+        //returnJsonObject
+        var returnJsonObject:Dictionary<String, Any>
+        
+        if let retrievedData = try? Data(contentsOf: fileURL) {
+            // has file to read
+            NSLog("plist has file \(fileURL)")
+            // to load the file
+            if let thisJsonObject = try? JSONSerialization.jsonObject(with: retrievedData, options: .mutableContainers) as! Dictionary<String, Any> {
+                returnJsonObject = thisJsonObject
+            } else {
+                NSLog("Read plist has file \(fileURL) to dictionary err")
+                returnJsonObject = dictionary
+            }
+           
+        } else {
+            // has no file to create one
+            NSLog("plist has no file \(fileURL)")
+            if let dataExample = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted) {
+                 try! dataExample.write(to: fileURL, options: .noFileProtection)
+            }
+            returnJsonObject = dictionary
+           
+        }
+        return returnJsonObject
+    }
+   
+    static func updateMemberPlistDefault(fileKey: String, dictionary: Dictionary<String, Any>) -> () {
+        //prepare file name
+        let fileURL = self.fileURL(fileKey: fileKey)
+        var plistData = plistLoad(fileURL: fileURL)
+        
+        for(key,value) in dictionary {
+            if let thisKey = key as? String, let thisValue = value as? String {
+                plistData.updateValue(thisValue, forKey: thisKey)
+            }
+        }
+        plistSave(fileURL: fileURL, dictionary: plistData)
+        
+    }
+    
+   static let PREFFERENCES_USER_ACCOUNT = "userAccount";
+   static let PREFFERENCES_USER_PASSWORD = "userPassword";
+   static let PREFFERENCES_UUID = "userUUID";
+   static let PREFFERENCES_NICKNAME = "nickname";
+   static let PREFFERENCES_USER_LAST_LOGIN_DATE = "loginDate";
+   static let PREFFERENCES_BIRTHDAY = "birthday";
+    
     
     // MARK: 製作基本Dictionary
     static func DictionaryMake(action: String, account: String, password: String) -> Dictionary<String, Any> {
