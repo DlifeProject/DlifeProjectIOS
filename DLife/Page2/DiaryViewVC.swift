@@ -98,38 +98,42 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 // 座標轉地點
                 let geoCoder = CLGeocoder()
                 
-                geoCoder.reverseGeocodeLocation(CLLocation(latitude: latitude , longitude: longitude),preferredLocale: NSLocale(localeIdentifier: "zh_TW") as Locale as Locale)
-                { (placemarks, error) in
-                    if error != nil{
-                        // 把拿到的資料喂給Diary
-                        let exDiary = Diary(Date: getDiary["post_day"] as! String,
-                                            startTime: String(startTime),
-                                            endTime: String(endTime),
-                                            place: "未知的地點",
-                                            diaryNote: getDiary["note"] as! String)
-                        
-                        Diary.add(diary: exDiary)
-                        DiaryViewCell.awakeFromNib()
-                        
+                if #available(iOS 11.0, *) {
+                    geoCoder.reverseGeocodeLocation(CLLocation(latitude: latitude , longitude: longitude),preferredLocale: NSLocale(localeIdentifier: "zh_TW") as Locale as Locale)
+                    { (placemarks, error) in
+                        if error != nil{
+                            // 把拿到的資料喂給Diary
+                            let exDiary = Diary(Date: getDiary["post_day"] as! String,
+                                                startTime: String(startTime),
+                                                endTime: String(endTime),
+                                                place: "未知的地點",
+                                                diaryNote: getDiary["note"] as! String)
+                            
+                            Diary.add(diary: exDiary)
+                            DiaryViewCell.awakeFromNib()
+                            
+                        }
+                        if placemarks != nil{
+                            
+                            let placemark = placemarks![0] as CLPlacemark
+                            let address = placemark.name!
+                            
+                            // 把拿到的資料喂給Diary
+                            let exDiary = Diary(Date: getDiary["post_day"] as! String,
+                                                startTime: String(startTime),
+                                                endTime: String(endTime),
+                                                place: address,
+                                                diaryNote: getDiary["note"] as! String)
+                            
+                            Diary.add(diary: exDiary)
+                            DiaryViewCell.awakeFromNib()
+                            
+                        }
+                        self.diarys = Diary.all
+                        self.DiaryView.reloadData()
                     }
-                    if placemarks != nil{
-                        
-                        let placemark = placemarks![0] as CLPlacemark
-                        let address = placemark.name!
-                        
-                        // 把拿到的資料喂給Diary
-                        let exDiary = Diary(Date: getDiary["post_day"] as! String,
-                                            startTime: String(startTime),
-                                            endTime: String(endTime),
-                                            place: address,
-                                            diaryNote: getDiary["note"] as! String)
-                        
-                        Diary.add(diary: exDiary)
-                        DiaryViewCell.awakeFromNib()
-                        
-                    }
-                    self.diarys = Diary.all
-                    self.DiaryView.reloadData()
+                } else {
+                    // Fallback on earlier versions
                 }
                 
                 // 把for裡面的i加1
