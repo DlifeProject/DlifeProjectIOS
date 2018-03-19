@@ -117,8 +117,6 @@ class TestViewController: UIViewController {
         
         // Perform Post!
         // jsonEncoding
-        
-        
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, doneHandler: doneHandler)
             

@@ -9,6 +9,16 @@
 import UIKit
 
 extension UIImage {
+    
+    
+    var base64: String{
+        //轉成Data
+        let imageData = UIImagePNGRepresentation(self)
+        ///Data轉base64字符串
+        let base64String=imageData?.base64EncodedString()
+        return  base64String!
+    }
+    
     func resize(maxWidthHeight: CGFloat) -> UIImage? {
         // Check if this image is already smaller than maxWidthHeight.
         if self.size.width < maxWidthHeight && self.size.height < maxWidthHeight {

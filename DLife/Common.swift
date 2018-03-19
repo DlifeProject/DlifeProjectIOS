@@ -14,7 +14,10 @@ import Alamofire
 // result :server傳回來的結果 回來是json就轉成字典
 typealias DoneHandler1 = (_ error:Error?, _ result:[String:Any]?) -> Void
 typealias DoneHandler2 = (_ error:Error?, _ result:[[String:Any]]?) -> Void
+//下方兩個圖片用
 typealias DownloadDoneHandler = (_ error:Error?, _ result: Data?) -> Void
+typealias UpdateDoneHandler = (_ error:Error?, _ result:Int?) -> Void
+
 
 class Common {
     
@@ -23,7 +26,7 @@ class Common {
     private init() {
         
     }
-    static let BASEURL="http://114.34.110.248:7070/Dlife/"
+    static let BASEURL="http://192.168.196.171:8080/Dlife/"
     static let PHOTO_URL="photo"
     static let TEST_URL="test"
     static let DIARY_URL="diary"
@@ -138,6 +141,39 @@ class Common {
             doneHandler(error, nil)
         }
         
+    }
+    
+    
+    //UIImage轉base64
+    func imageToBase64String(image:UIImage)->String?{
+        //轉成Data
+        guard let imageData = UIImagePNGRepresentation(image) else {
+            return nil
+        }
+        ///Data轉base64字符串
+        var base64String=imageData.base64EncodedString()
+        
+        
+        //base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue:0))
+        
+        return base64String
+    }
+    //上傳照片
+    // android的imageSize=下方來取得view的寬
+    //let screenWidth = self.view.frame.width
+    func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
+        
+        
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in switch response.result{
+        case .success(let json):
+            NSLog("doPost success with result: \(json)")
+            NSLog("\(json)")
+            doneHandler(nil,json as! Int)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
     }
   
     // MARK: 生成URL
