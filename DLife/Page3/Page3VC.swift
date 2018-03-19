@@ -11,7 +11,8 @@ import UIKit
 class Page3VC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    
+    var friendships = Friendship.all
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
@@ -25,13 +26,7 @@ class Page3VC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
 
-    @IBAction func skip(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Page2", bundle: nil)
-        let controller = storyboard.instantiateInitialViewController()
-//        let nav = UINavigationController(rootViewController: controller)
-        
-        self.view.window?.rootViewController = controller
-    }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +34,8 @@ class Page3VC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
 
         // Do any additional setup after loading the view.
+       
+        
     }
 
     override func didReceiveMemoryWarning() {

@@ -145,7 +145,7 @@ class PieChartVC: UIViewController {
         
         
         //把拿到數值給piechart
-        pieChart(Shopping: 20, Hobby: 30, Learning: 20, Travel: 20, Work: 20)
+        pieChart(Shopping: 0, Hobby: 0, Learning: 0, Travel: 0, Work: 0)
     }
     
     @objc func endDonePressed() {

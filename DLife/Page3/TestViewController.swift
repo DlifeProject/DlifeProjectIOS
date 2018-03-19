@@ -86,7 +86,7 @@ class TestViewController: UIViewController {
             }}
     }
     
-    func photoTest(_ password:String,doneHandler:@escaping DoneHandler) {
+    func photoTest(_ password:String,doneHandler:@escaping DoneHandler1) {
         
         let screenWidth = self.view.frame.width
         
@@ -94,37 +94,20 @@ class TestViewController: UIViewController {
         doPost(urlString: "http://114.34.110.248:7070/Dlife/test", parameters: parameters, doneHandler: doneHandler)
     }
     
-    func test(_ password:String,doneHandler:@escaping DoneHandler) {
+    func test(_ password:String,doneHandler:@escaping DoneHandler1) {
         let parameters: [String : Any] = ["action":"login","account":"irv278@gmail.com","password":"Regan"]
         doPost(urlString: "http://114.34.110.248:7070/Dlife/test", parameters: parameters, doneHandler: doneHandler)
     }
     
-    func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler) {
-        // Prepare parameters.
-        //        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
-        //            let error = NSError(domain: "Encode json data fail.", code: -1, userInfo: nil)
-        //            doneHandler(error, nil)
-        //            return
-        //        }
-        //        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-        //            let error = NSError(domain: "Prepare json string fail.", code: -1, userInfo: nil)
-        //            doneHandler(error, nil)
-        //            return
-        //        }
-        //        let finalParameters = [DATA_KEY:jsonString]
-        //        NSLog("doPost Parameters: \(finalParameters)")
-        
-        
+    func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler1) {
         // Perform Post!
         // jsonEncoding
-        
-        
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, doneHandler: doneHandler)
             
         }
     }
-    func handleResponse(_ response:DataResponse<Any>, doneHandler:DoneHandler) {
+    func handleResponse(_ response:DataResponse<Any>, doneHandler:DoneHandler1) {
         switch response.result {
         case.success(let json):
             NSLog("doPost success with result: \(json)")

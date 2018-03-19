@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiaryViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet weak var Date: UILabel!
     @IBOutlet weak var startTime: UILabel!
@@ -16,7 +16,6 @@ class DiaryViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollect
     @IBOutlet weak var place: UILabel!
     @IBOutlet weak var diaryNote: UILabel!
     @IBOutlet weak var ImageView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
     
     var images = Image.all
     var height: CGFloat = 0.0
@@ -48,9 +47,7 @@ class DiaryViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollect
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        self.pageControl.currentPage = indexPath.section
-    }
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -58,7 +55,6 @@ class DiaryViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollect
         Image.add(image: image)
         images = Image.all
         ImageView.reloadData()
-        pageControl.hidesForSinglePage = true
     }
     
 
