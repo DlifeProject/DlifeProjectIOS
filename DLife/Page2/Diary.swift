@@ -11,6 +11,7 @@ import UIKit
 struct Diary {
     
     static var all = [Diary]()
+    static var diarySk = [Int]()
     
     var Date: String
     var startTime: String
@@ -18,6 +19,7 @@ struct Diary {
     var place: String
     var diaryNote: String
     
+
     
     static func add(diary: Diary) {
         all.append(diary)

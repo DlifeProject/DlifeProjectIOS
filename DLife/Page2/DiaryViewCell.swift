@@ -16,12 +16,13 @@ class DiaryViewCell: UITableViewCell {
     @IBOutlet weak var place: UILabel!
     @IBOutlet weak var diaryNote: UILabel!
     @IBOutlet weak var ImageView: UICollectionView!
-    @IBOutlet var diarySk: UILabel!
     
     var height: CGFloat = 0.0
-    var songs: [Image]?
+    var Image : [UIImage]?
     
     static var sk: Int!
+    var thisWidth:CGFloat = 0
+
     
     var diary: Diary? {
         didSet{
@@ -36,27 +37,27 @@ class DiaryViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        thisWidth = CGFloat(self.frame.width)
+
     }
 }
 
 extension DiaryViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = songs?.count ?? 0
+        let count = Image?.count ?? 0
         return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageViewCell, let songs = songs else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageViewCell, let images = Image else {
             return UICollectionViewCell()
         }
-        let song = songs[indexPath.item]
-        cell.imageView.image = nil
-        cell.tag = indexPath.item
-     
-                
-//        cell.albumImageView.image = image
+        
+        print("images",images)
+        let imageData = images[indexPath.item]
+        cell.imageView.image = nil        
+        cell.imageView.image = imageData
       
         return cell
     }

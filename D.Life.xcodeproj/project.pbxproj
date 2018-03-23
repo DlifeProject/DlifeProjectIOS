@@ -35,7 +35,6 @@
 		AC802FBF2051022C00CC3874 /* DiaryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802FBE2051022C00CC3874 /* DiaryViewCell.swift */; };
 		AC802FC12051154800CC3874 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802FC02051154800CC3874 /* Diary.swift */; };
 		AC802FC52051334500CC3874 /* ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802FC42051334500CC3874 /* ImageViewCell.swift */; };
-		AC802FC72051388300CC3874 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802FC62051388300CC3874 /* Image.swift */; };
 		AC89EB602043A0B80059344C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC89EB5F2043A0B80059344C /* AppDelegate.swift */; };
 		AC89EB652043A0B80059344C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC89EB632043A0B80059344C /* Main.storyboard */; };
 		AC89EB672043A0B80059344C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC89EB662043A0B80059344C /* Assets.xcassets */; };
@@ -80,7 +79,6 @@
 		AC802FBE2051022C00CC3874 /* DiaryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewCell.swift; sourceTree = "<group>"; };
 		AC802FC02051154800CC3874 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		AC802FC42051334500CC3874 /* ImageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewCell.swift; sourceTree = "<group>"; };
-		AC802FC62051388300CC3874 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		AC89EB5C2043A0B80059344C /* D.Life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = D.Life.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC89EB5F2043A0B80059344C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC89EB642043A0B80059344C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -185,7 +183,6 @@
 				AC802FB7204FC2F400CC3874 /* TravelVC.swift */,
 				AC802FB9204FC31F00CC3874 /* WorkVC.swift */,
 				AC802FC02051154800CC3874 /* Diary.swift */,
-				AC802FC62051388300CC3874 /* Image.swift */,
 				AC802FBB20503CCA00CC3874 /* DiaryViewVC.swift */,
 				AC802FBE2051022C00CC3874 /* DiaryViewCell.swift */,
 				AC802FC42051334500CC3874 /* ImageViewCell.swift */,
@@ -391,7 +388,6 @@
 				5949A76D205F824700C03B20 /* Data+HexString.swift in Sources */,
 				9F28960D205BA131008380A7 /* DiaryTableViewCell.swift in Sources */,
 				AC802FBF2051022C00CC3874 /* DiaryViewCell.swift in Sources */,
-				AC802FC72051388300CC3874 /* Image.swift in Sources */,
 				9F289609205BA131008380A7 /* DiaryModel.xcdatamodeld in Sources */,
 				AC177EEC2058F80B00DA4997 /* Common.swift in Sources */,
 				AC177F60205AA29300DA4997 /* UIImage+Resize.swift in Sources */,

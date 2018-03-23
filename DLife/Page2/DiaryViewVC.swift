@@ -32,8 +32,54 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.selectionStyle = .none
         let diary = diarys[indexPath.row]
         cell.diary = diary
-       
-        cell.images = []
+
+        let diarySk = Diary.diarySk[indexPath.row]
+        
+        var allPhotoSk = Common.DictionaryMake(action: "getDiaryPhotoSKList", account: "irv278@gmail.com", password: "Regan")
+
+        print("awakeFromNib diarySk:\(diarySk)")
+        
+        allPhotoSk.updateValue(diarySk, forKey: "diarySK")
+        Common.shared.text(api: "photo", jsonDictionary: allPhotoSk, jsonRow: 0) { (error, result) in
+            if error != nil {
+                print("error: \(error)")
+                return
+            }
+            var allPhotoSk = [[String: Any]]()
+            allPhotoSk = result as [[String: Any]]!
+            print("allPhotoSk.count: \(allPhotoSk.count)")
+            
+            if allPhotoSk.count == 0 {
+                cell.Image = [#imageLiteral(resourceName: "ExPhoto")]
+                cell.ImageView.reloadData()
+            } else {
+                var photData = [UIImage]()
+                for i in 0...(allPhotoSk.count - 1) {
+                    
+                    var photoSk: Int!
+                    photoSk = allPhotoSk[i]["sk"] as! Int
+                    var photo = Common.DictionaryMake(action: "getImage", account: "irv278@gmail.com", password: "Regan")
+                    photo.updateValue(photoSk!, forKey: "id")
+                    print("AAAAA:\(photoSk!)")
+                    photo.updateValue(1080, forKey: "imageSize")
+                    Common.shared.downloadPhotoMessage(finalFileURLString: Common.BASEURL + Common.PHOTO_URL, parameters: photo) { (error, result) in
+                        if error != nil {
+                            return
+                        }
+                        guard let photo = result else {
+                            return
+                        }
+                        photData.append(UIImage(data: photo)!)
+                        cell.Image = photData
+                        print("countSize", photData.count)
+                        cell.ImageView.reloadData()
+                    }
+                }
+            }
+        }
+        cell.ImageView.contentOffset.x = 0
+        cell.ImageView.reloadData()
+
         
         return cell
     }
@@ -116,7 +162,7 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                                                 endTime: String(endTime),
                                                 place: address,
                                                 diaryNote: getDiary["note"] as! String)
-                            DiaryViewCell.sk = getDiary["sk"] as! Int
+                            Diary.diarySk.append(getDiary["sk"] as! Int)
                             print("DiaryViewCell.sk =", DiaryViewCell.sk)
                             Diary.add(diary: exDiary)
                         }
