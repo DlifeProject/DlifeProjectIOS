@@ -293,7 +293,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ExPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="zF1-hf-lXt">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zF1-hf-lXt">
                                 <rect key="frame" x="0.0" y="20" width="375" height="318"/>
                             </imageView>
                         </subviews>
@@ -321,6 +321,7 @@
                     <connections>
                         <outlet property="day" destination="lc0-mN-wAR" id="x29-MG-kok"/>
                         <outlet property="diary" destination="2x1-Wd-gdB" id="Gxn-LG-Qt5"/>
+                        <outlet property="exPhoto" destination="zF1-hf-lXt" id="hQu-aF-J1d"/>
                         <outlet property="label" destination="5Sz-Qz-YwK" id="jae-4c-zdu"/>
                         <outlet property="label2" destination="vvX-wS-dR0" id="miL-HF-gCm"/>
                         <outlet property="month" destination="vSO-j7-Gl6" id="tdn-kr-jU9"/>
@@ -443,7 +444,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ExPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="Ygb-IC-rrc">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ygb-IC-rrc">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
                             </imageView>
                         </subviews>
@@ -471,6 +472,7 @@
                     <connections>
                         <outlet property="day" destination="c5L-S1-UuQ" id="chn-33-CyA"/>
                         <outlet property="diary" destination="ssi-am-FEh" id="ZWq-my-4sc"/>
+                        <outlet property="exPhoto" destination="Ygb-IC-rrc" id="TPV-4k-ekz"/>
                         <outlet property="label" destination="Dr5-xB-q3m" id="IjV-9X-BaC"/>
                         <outlet property="label2" destination="anV-lh-whK" id="ief-70-xXe"/>
                         <outlet property="month" destination="FOy-DV-77P" id="I29-Pr-578"/>
@@ -593,7 +595,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ExPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="BUa-dG-B8N">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BUa-dG-B8N">
                                 <rect key="frame" x="0.0" y="20" width="375" height="318"/>
                             </imageView>
                         </subviews>
@@ -621,6 +623,7 @@
                     <connections>
                         <outlet property="day" destination="yl3-Rs-xpo" id="Krf-YT-Hl2"/>
                         <outlet property="diary" destination="OeH-5Y-luQ" id="rIe-sT-7PY"/>
+                        <outlet property="exPhoto" destination="BUa-dG-B8N" id="Oa0-BM-IYv"/>
                         <outlet property="label" destination="zOS-X8-Ete" id="TJ7-51-Tti"/>
                         <outlet property="label2" destination="G4S-KD-yOs" id="dNA-G2-PwX"/>
                         <outlet property="month" destination="hmC-cp-tAo" id="EJ4-7a-knd"/>
@@ -678,7 +681,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="345" height="253"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4BD-1S-wUn">
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ExPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="4BD-1S-wUn">
                                                                         <rect key="frame" x="8" y="8" width="329" height="237"/>
                                                                     </imageView>
                                                                 </subviews>
@@ -759,6 +762,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPN-za-OSF">
+                                                    <rect key="frame" x="108" y="294" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="J4Q-7O-hfw" secondAttribute="bottom" id="058-kh-DyU"/>
@@ -783,8 +793,9 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="Date" destination="jKP-5C-RL6" id="rUa-U8-HDK"/>
-                                            <outlet property="ImageView" destination="fMB-BU-nQh" id="6Wb-MZ-bqK"/>
+                                            <outlet property="ImageView" destination="fMB-BU-nQh" id="5hx-8o-Pbt"/>
                                             <outlet property="diaryNote" destination="J4Q-7O-hfw" id="eNb-0S-R5t"/>
+                                            <outlet property="diarySk" destination="WPN-za-OSF" id="Mfx-RD-UJs"/>
                                             <outlet property="endTime" destination="9bB-3R-bm1" id="1KH-JQ-O6e"/>
                                             <outlet property="place" destination="M04-YQ-yEJ" id="mC2-B7-v1i"/>
                                             <outlet property="startTime" destination="beV-Bq-GaB" id="NQP-jj-819"/>
@@ -931,7 +942,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ExPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="9M0-Yi-T75">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9M0-Yi-T75">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
                             </imageView>
                         </subviews>
@@ -959,6 +970,7 @@
                     <connections>
                         <outlet property="day" destination="scs-2y-0HI" id="Un5-z4-8yS"/>
                         <outlet property="diary" destination="XZV-tj-tpn" id="YeZ-ka-vZp"/>
+                        <outlet property="exPhoto" destination="9M0-Yi-T75" id="Utm-ab-Nil"/>
                         <outlet property="label" destination="7vX-rc-TY8" id="oaH-X7-sbk"/>
                         <outlet property="label2" destination="24y-IA-diN" id="NgH-ey-FQD"/>
                         <outlet property="month" destination="PJb-za-drS" id="JN2-PL-I0F"/>
@@ -1081,7 +1093,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ExPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="db1-ri-DDs">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="db1-ri-DDs">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="338"/>
                             </imageView>
                         </subviews>
@@ -1109,6 +1121,7 @@
                     <connections>
                         <outlet property="day" destination="bbn-i4-B8G" id="icU-y0-8bu"/>
                         <outlet property="diary" destination="VgL-O0-Ybo" id="UB9-NH-BsD"/>
+                        <outlet property="exPhoto" destination="db1-ri-DDs" id="I9n-pc-Skk"/>
                         <outlet property="label" destination="aum-aK-LM7" id="nu4-al-q2K"/>
                         <outlet property="label2" destination="yFc-TO-Dh6" id="7aY-vW-JaH"/>
                         <outlet property="month" destination="tPC-6U-e2X" id="smb-Wa-bTc"/>

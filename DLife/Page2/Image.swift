@@ -11,12 +11,11 @@ import UIKit
 struct Image {
     
     static var all = [Image]()
-    
+
     var DiaryImage: UIImage
     
-    static func add(image: Image) {
-        all = [Image]()
-        all.append(image)
-    }
+//    static func add(image: Image) {
+//        all.append(image)
+//    }
 }
 

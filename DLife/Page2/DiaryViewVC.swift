@@ -26,11 +26,14 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         return diarys.count
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = DiaryView.dequeueReusableCell(withIdentifier: "DiaryCell", for: indexPath) as! DiaryViewCell
         cell.selectionStyle = .none
         let diary = diarys[indexPath.row]
         cell.diary = diary
+       
+        cell.images = []
         
         return cell
     }
@@ -93,7 +96,6 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 let endTime = end[startTimeStart..<startTimeEnd]
                 let latitude = getDiary["latitude"] as! Double
                 let longitude = getDiary["longitude"] as! Double
-
                 
                 // 座標轉地點
                 let geoCoder = CLGeocoder()
@@ -102,19 +104,9 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     geoCoder.reverseGeocodeLocation(CLLocation(latitude: latitude , longitude: longitude),preferredLocale: NSLocale(localeIdentifier: "zh_TW") as Locale as Locale)
                     { (placemarks, error) in
                         if error != nil{
-                            // 把拿到的資料喂給Diary
-                            let exDiary = Diary(Date: getDiary["post_day"] as! String,
-                                                startTime: String(startTime),
-                                                endTime: String(endTime),
-                                                place: "未知的地點",
-                                                diaryNote: getDiary["note"] as! String)
-                            
-                            Diary.add(diary: exDiary)
-                            DiaryViewCell.awakeFromNib()
-                            
+                            return
                         }
                         if placemarks != nil{
-                            
                             let placemark = placemarks![0] as CLPlacemark
                             let address = placemark.name!
                             
@@ -124,28 +116,21 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                                                 endTime: String(endTime),
                                                 place: address,
                                                 diaryNote: getDiary["note"] as! String)
-                            
+                            DiaryViewCell.sk = getDiary["sk"] as! Int
+                            print("DiaryViewCell.sk =", DiaryViewCell.sk)
                             Diary.add(diary: exDiary)
-                            DiaryViewCell.awakeFromNib()
-                            
                         }
                         self.diarys = Diary.all
                         self.DiaryView.reloadData()
                     }
-                } else {
-                    // Fallback on earlier versions
                 }
-                
-                // 把for裡面的i加1
-                i + 1
-                
             }
             
         }
         
     }
     
-    
+ 
     override func viewWillDisappear(_ animated: Bool) {
         // 把diary裡面的項目清空
         Diary.all = [Diary]()
@@ -153,6 +138,7 @@ class DiaryViewVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         self.navigationController?.isNavigationBarHidden = true
 
     }
+    
     
 
 }

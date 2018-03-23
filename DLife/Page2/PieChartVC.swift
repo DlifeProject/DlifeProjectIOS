@@ -45,9 +45,27 @@ class PieChartVC: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd"
         PieChartVC.endDateString = formatter.string(from: today as Date)
         PieChartVC.startDateString = formatter.string(from: todayBefore as Date)
+        var pieChartValue = Common.DictionaryMake(action: "select", account: "irv278@gmail.com", password: "Regan")
+        pieChartValue.updateValue(PieChartVC.startDateString, forKey: "startDay")
+        pieChartValue.updateValue(PieChartVC.endDateString, forKey: "endDay")
+        
+        Common.shared.text(api: "PiechartServlet", jsonDictionary: pieChartValue, jsonRow: 0) { (error, result) in
+            if error != nil {
+                NSLog("sendTextMessage fail: \(error)")
+                return
+            }
+            let pieChartValue = result! as [[String: Any]]
+            print(pieChartValue)
+            self.pieChart(Shopping: pieChartValue[0]["categoryTime"] as! Int,
+                          Hobby: pieChartValue[1]["categoryTime"] as! Int,
+                          Learning: pieChartValue[2]["categoryTime"] as! Int,
+                          Travel: pieChartValue[3]["categoryTime"] as! Int,
+                          Work: pieChartValue[4]["categoryTime"] as! Int)
+        }
         
         creatSinceDatePicker()
         creatEndDatePicker()
+        
         
         
         
@@ -157,9 +175,27 @@ class PieChartVC: UIViewController {
         creatSinceDatePicker()
         creatEndDatePicker()
         
+        var pieChartValue = Common.DictionaryMake(action: "select", account: "irv278@gmail.com", password: "Regan")
+        pieChartValue.updateValue(PieChartVC.startDateString, forKey: "startDay")
+        pieChartValue.updateValue(PieChartVC.endDateString, forKey: "endDay")
+        
+        Common.shared.text(api: "PiechartServlet", jsonDictionary: pieChartValue, jsonRow: 0) { (error, result) in
+            if error != nil {
+                NSLog("sendTextMessage fail: \(error)")
+            }
+            let pieChartValue = result! as [[String: Any]]
+            print(pieChartValue)
+            self.pieChart(Shopping: pieChartValue[0]["categoryTime"] as! Int,
+                          Hobby: pieChartValue[1]["categoryTime"] as! Int,
+                          Learning: pieChartValue[2]["categoryTime"] as! Int,
+                          Travel: pieChartValue[3]["categoryTime"] as! Int,
+                          Work: pieChartValue[4]["categoryTime"] as! Int)
+        }
+
+        
         
         //把拿到數值給piechart
-        pieChart(Shopping: 0, Hobby: 0, Learning: 0, Travel: 0, Work: 0)
+        
     }
     
     @objc func endDonePressed() {
@@ -174,10 +210,22 @@ class PieChartVC: UIViewController {
         self.view.endEditing(true)
         creatSinceDatePicker()
         creatEndDatePicker()
+        var pieChartValue = Common.DictionaryMake(action: "select", account: "irv278@gmail.com", password: "Regan")
+        pieChartValue.updateValue(PieChartVC.startDateString, forKey: "startDay")
+        pieChartValue.updateValue(PieChartVC.endDateString, forKey: "endDay")
         
-        
-        //把拿到數值給piechart
-        pieChart(Shopping: 20, Hobby: 50, Learning: 20, Travel: 20, Work: 20)
+        Common.shared.text(api: "PiechartServlet", jsonDictionary: pieChartValue, jsonRow: 0) { (error, result) in
+            if error != nil {
+                NSLog("sendTextMessage fail: \(error)")
+            }
+            let pieChartValue = result! as [[String: Any]]
+            print(pieChartValue)
+            self.pieChart(Shopping: pieChartValue[0]["categoryTime"] as! Int,
+                          Hobby: pieChartValue[1]["categoryTime"] as! Int,
+                          Learning: pieChartValue[2]["categoryTime"] as! Int,
+                          Travel: pieChartValue[3]["categoryTime"] as! Int,
+                          Work: pieChartValue[4]["categoryTime"] as! Int)
+        }
     }
     
     func pieChart(Shopping: Int, Hobby: Int, Learning: Int, Travel: Int, Work: Int) {

@@ -19,7 +19,7 @@ class ShoppingVC: UIViewController {
     @IBOutlet weak var sevenDay: UILabel!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var label2: UILabel!
-    
+    @IBOutlet weak var exPhoto: UIImageView!
     
     let category = Common.DictionaryMake(action: "categorySum", account: "irv278@gmail.com", password: "Regan")
     
@@ -44,6 +44,23 @@ class ShoppingVC: UIViewController {
             self.sevenDay.text = "\(getCategoryData["seven_day"] as! Int)"
             self.label.text = "/"
             self.label2.text = "/"
+            
+            var photo = Common.DictionaryMake(action: "getImage", account: "irv278@gmail.com", password: "Regan")
+            photo.updateValue(getCategoryData["diaryPhotoSK"] as! Int, forKey: "id")
+            photo.updateValue(1080, forKey: "imageSize")
+
+            Common.shared.downloadPhotoMessage(finalFileURLString: "http://114.34.110.248:7070/Dlife/photo", parameters: photo){ (error, result) in
+                if let error = error {
+                    NSLog("sendTextMessage fail: \(error)")
+                    self.exPhoto.image = #imageLiteral(resourceName: "ExPhoto")
+                    return
+                }
+                if result?.count == 0{
+                    self.exPhoto.image = #imageLiteral(resourceName: "ExPhoto")
+                } else {
+                    self.exPhoto.image = UIImage(data: result!)
+                }
+            }
 
 
         }

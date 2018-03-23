@@ -26,7 +26,7 @@ class Common {
     private init() {
         
     }
-    static let BASEURL="http://192.168.196.171:8080/Dlife/"
+    static let BASEURL="http://192.168.196.128:8080/Dlife/"
     static let PHOTO_URL="photo"
     static let TEST_URL="test"
     static let DIARY_URL="diary"
@@ -42,7 +42,7 @@ class Common {
         
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://114.34.110.248:7070/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
@@ -50,13 +50,13 @@ class Common {
         
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://114.34.110.248:7070/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     
     
     // MARK: doPost
     func doPost(action: String, urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler1) {
-
+        
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, action: action, doneHandler: doneHandler)
             
@@ -75,32 +75,32 @@ class Common {
     // MARK: handleResponse
     func handleResponse(_ response:DataResponse<Any>, action: String,  doneHandler:DoneHandler1) {
         switch response.result {
-            case .success(let json):
-                print("doPOST success with result: \(json)")   //json String
+        case .success(let json):
+            print("doPOST success with result: \(json)")   //json String
+            
+            let resultJSON1 = json as! [String:Any]
+            print("1: \n \(resultJSON1)")
+            let resultJSON2 = resultJSON1[action]! as! String
+            print("2: \n \(resultJSON2)")
+            
+            let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                print("json: \n \(json)")
                 
-                let resultJSON1 = json as! [String:Any]
-                print("1: \n \(resultJSON1)")
-                let resultJSON2 = resultJSON1[action]! as! String
-                print("2: \n \(resultJSON2)")
+                doneHandler(nil, json)
                 
-                let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-                
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                    print("json: \n \(json)")
-                    
-                    doneHandler(nil, json)
-                    
-                } catch let error as NSError {
-                    print("Failed to load: \(error.localizedDescription)")
-                    doneHandler(error, nil)
-
-            }
-
-            case .failure(let error):
-                NSLog("doPOST fail with error: \(error)")
+            } catch let error as NSError {
+                print("Failed to load: \(error.localizedDescription)")
                 doneHandler(error, nil)
+                
             }
+            
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
+            doneHandler(error, nil)
+        }
         
     }
     
@@ -108,17 +108,11 @@ class Common {
     func handleResponse(_ response:DataResponse<Any>, action: String, jsonRow: Int,  doneHandler:DoneHandler2) {
         switch response.result {
         case .success(let json):
-            print("doPOST success with result: \(json)")   //json String
+            print("doPOST success with result:\n \(json)")   //json String
             
             let resultJSON1 = json as! [String:Any]
             print("1: \n \(resultJSON1)")
-            var resultJSON2: String
-            
-            if action == "getDiaryBetweenDays" {
-                resultJSON2 = resultJSON1["getDiary"]! as! String
-            } else {
-                resultJSON2 = resultJSON1[action]! as! String
-            }
+            let resultJSON2 = resultJSON1[action]! as! String
             print("2: \n \(resultJSON2)")
             
             let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
@@ -132,9 +126,9 @@ class Common {
             } catch let error as NSError {
                 print("Failed to load: \(error.localizedDescription)")
                 doneHandler(error, nil)
-
+                
             }
-
+            
             
         case .failure(let error):
             NSLog("doPOST fail with error: \(error)")
@@ -175,7 +169,21 @@ class Common {
             doneHandler(error,nil)
             }}
     }
-  
+    
+    // MARK 下載照片
+    func downloadPhotoMessage(finalFileURLString:String,parameters:Dictionary<String,Any> ,doneHandler: @escaping DownloadDoneHandler) {
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseData { (response) in switch response.result{
+        case .success(let data):
+            NSLog("Download OK:\(data.count)")
+            NSLog("\(data)")
+            doneHandler(nil,data)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
+    }
+    
     // MARK: 生成URL
     static func fileURL(fileKey: String) -> URL {
         //生成路經
@@ -214,11 +222,11 @@ class Common {
     
     // MARK: 製作基本Dictionary
     static func DictionaryMake(action: String, account: String, password: String) -> Dictionary<String, Any> {
-        var dictionary: Dictionary<String, Any> = ["0": 0]
+        var dictionary = Dictionary<String, Any>()
         dictionary.updateValue(action, forKey: "action")
         dictionary.updateValue(account, forKey: "account")
         dictionary.updateValue(password, forKey: "password")
-        dictionary.removeValue(forKey: "0")
+        
         
         return dictionary
         
