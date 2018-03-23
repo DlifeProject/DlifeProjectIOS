@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class DiaryViewCell: UITableViewCell {
 
     @IBOutlet weak var Date: UILabel!
     @IBOutlet weak var startTime: UILabel!
@@ -18,8 +18,8 @@ class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
     @IBOutlet weak var ImageView: UICollectionView!
     @IBOutlet var diarySk: UILabel!
     
-    var images = [Image]()
     var height: CGFloat = 0.0
+    var songs: [Image]?
     
     static var sk: Int!
     
@@ -34,20 +34,32 @@ class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    // collectionView的東東
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(#function, collectionView, "count", images.count)
-        return images.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = ImageView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageViewCell
-        cell.image = images[indexPath.row]
-        return cell
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
     }
 }
+
+extension DiaryViewCell: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let count = songs?.count ?? 0
+        return count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageViewCell, let songs = songs else {
+            return UICollectionViewCell()
+        }
+        let song = songs[indexPath.item]
+        cell.imageView.image = nil
+        cell.tag = indexPath.item
+     
+                
+//        cell.albumImageView.image = image
+      
+        return cell
+    }
+    
+}
+

@@ -700,7 +700,6 @@
                                                     </cells>
                                                     <connections>
                                                         <outlet property="dataSource" destination="Dtv-W6-bZI" id="dMR-om-Ha2"/>
-                                                        <outlet property="delegate" destination="Dtv-W6-bZI" id="6js-Ma-8jV"/>
                                                     </connections>
                                                 </collectionView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKP-5C-RL6">
