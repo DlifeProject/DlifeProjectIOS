@@ -19,7 +19,6 @@ class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
     
     var images = Image.all
     var height: CGFloat = 0.0
-    
     var diary: Diary? {
         didSet{
             Date.text = diary?.Date

@@ -18,10 +18,15 @@ let RESULT_KEY = "result"
 
 
 class TestViewController: UIViewController {
-    
+    var friendshipValue:Friendship?
+
+    @IBOutlet weak var cellTest: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        label?.text=Page3VC.firstData?.myCategory
+        
         let parameters:[String:Any]=["action":"photo","sk":1,"imageSize":0]
         downloadPhotoMessage(finalFileURLString:Common.BASEURL+Common.TEST_URL,parameters:parameters ) { (error, data) in
             if let error = error {

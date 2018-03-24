@@ -26,7 +26,7 @@ class Common {
     private init() {
         
     }
-    static let BASEURL="http://192.168.196.171:8080/Dlife/"
+    static let BASEURL="http://192.168.196.113:8080/Dlife/"
     static let PHOTO_URL="photo"
     static let TEST_URL="test"
     static let DIARY_URL="diary"
@@ -42,7 +42,7 @@ class Common {
         
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://114.34.110.248:7070/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+        doPost(action: action, urlString: "http://192.168.196.113:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
@@ -50,7 +50,7 @@ class Common {
         
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://114.34.110.248:7070/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
+        doPost(action: action, urlString: "http://192.168.196.113:8080/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     
     
@@ -110,8 +110,19 @@ class Common {
             
             let resultJSON1 = json as! [String:Any]
             print("1: \n \(resultJSON1)")
-            let resultJSON2 = resultJSON1[action]! as! String
-            print("2: \n \(resultJSON2)")
+            var resultJSON2:String
+            if action == "getDiaryBetweenDays" {
+                resultJSON2 = resultJSON1["getDiary"]! as! String
+            } else if action == "getFriendList"{
+                  resultJSON2 = resultJSON1["friendList"]! as! String
+            }else if action=="MyShareAbleCateList"{
+                resultJSON2 = resultJSON1["CategorySum"]! as! String
+
+            }
+            
+            else {
+                resultJSON2 = resultJSON1[action]! as! String
+            }
             
             let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
             
@@ -148,7 +159,7 @@ class Common {
         
         return base64String
     }
-    //上傳照片
+    // MARK:上傳照片
     // android的imageSize=下方來取得view的寬
     //let screenWidth = self.view.frame.width
     func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
@@ -159,6 +170,20 @@ class Common {
             NSLog("doPost success with result: \(json)")
             NSLog("\(json)")
             doneHandler(nil,json as! Int)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
+    }
+    
+    // MARK 下載照片
+    func downloadPhotoMessage(finalFileURLString:String,parameters:Dictionary<String,Any> ,doneHandler: @escaping DownloadDoneHandler) {
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseData { (response) in switch response.result{
+        case .success(let data):
+            NSLog("Download OK:\(data.count)")
+            NSLog("\(data)")
+            doneHandler(nil,data)
             
         case .failure(let error):
             NSLog("Download Fail:\(error)")

@@ -11,5 +11,5 @@ target 'D.Life' do
 pod 'RKPieChart'
 pod 'Alamofire'
 pod 'BSImagePicker'
-
+pod 'lottie-ios'
 end
