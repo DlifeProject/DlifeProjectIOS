@@ -17,7 +17,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J2l-u0-ku2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2286" y="383"/>
+            <point key="canvasLocation" x="-1367" y="435"/>
         </scene>
         <!--Page2-->
         <scene sceneID="Tm2-o0-Nsr">
@@ -27,7 +27,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gv2-Bd-vGU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1561" y="382"/>
+            <point key="canvasLocation" x="-1168" y="435"/>
         </scene>
         <!--Page3-->
         <scene sceneID="DjV-n7-kJj">
@@ -37,7 +37,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EsW-PA-rus" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-523" y="384"/>
+            <point key="canvasLocation" x="-862" y="435"/>
         </scene>
         <!--Page4-->
         <scene sceneID="PHl-VQ-2l1">
@@ -213,7 +213,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="0.47929412126541138" green="0.83270448446273804" blue="0.73724877834320068" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="0.47843137254901957" green="0.83137254901960778" blue="0.73725490196078436" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="selectedImageTintColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="unselectedItemTintColor">

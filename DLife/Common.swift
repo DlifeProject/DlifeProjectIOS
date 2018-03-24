@@ -20,6 +20,7 @@ typealias DownloadDoneHandler = (_ error:Error?, _ result: Data?) -> Void
 typealias UpdateDoneHandler = (_ error:Error?, _ result:Int?) -> Void
 
 
+
 class Common {
     
     static let shared = Common()
@@ -52,15 +53,29 @@ class Common {
     
     // MARK: 上傳下載文字Dictionary
     func text(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler1) {
+        
         let action = jsonDictionary["action"] as! String
-        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
+        
+        doPost(action: action, urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
     func text(api: String, jsonDictionary: Dictionary<String, Any>, jsonRow: Int , doneHandler:@escaping DoneHandler2) {
         let action = jsonDictionary["action"] as! String
-        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
+        
+        doPost(action: action, urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
+    // MARK: - 上傳日記用
+    func textUpate(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping UpdateDoneHandler) {
+    
+        doPost(urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+    }
+    // MARK: - 上傳地標用
+    func textUpateLandmark(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping UpdateLandmarkDoneHandler) {
+        
+        doPost(urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+    }
+    
     
     // MARK: 下載存文字
     func text3(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler3) {
@@ -73,8 +88,10 @@ class Common {
         
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, action: action, doneHandler: doneHandler)
+        
             
         }
+      
     }
     
     // MARK: doPost(Dictionary包Dictionary型)
@@ -82,6 +99,14 @@ class Common {
         
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, action: action, jsonRow: jsonRow, doneHandler: doneHandler)
+          
+        }
+    }
+     // MARK: - 上傳日記用
+    func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping UpdateDoneHandler) {
+        
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
+            self.handleResponse(response, action: action, doneHandler: doneHandler)
             
         }
     }
@@ -139,18 +164,148 @@ class Common {
     func handleResponse(_ response:DataResponse<Any>, action: String, jsonRow: Int,  doneHandler:DoneHandler2) {
         switch response.result {
         case .success(let json):
-            print("doPOST success with result: \(json)")   //json String
+            print("doPOST success with result:\n \(json)")   //json String
             
             let resultJSON1 = json as! [String:Any]
             print("1: \n \(resultJSON1)")
-            var resultJSON2: String
             
-            if action == "getDiaryBetweenDays" {
-                resultJSON2 = resultJSON1["getDiary"]! as! String
+            if  resultJSON1[action] != nil{
+            let resultJSON2 = resultJSON1[action]! as! String
+           
+            print("2: \n \(resultJSON2)")
+            
+            let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [[String: Any]]
+                print("json: \n \(json)")
+                
+                doneHandler(nil, json)
+                
+            } catch let error as NSError {
+                print("Failed to load: \(error.localizedDescription)")
+                doneHandler(error, nil)
+                
+            }
+            } else if resultJSON1["nearbyItems"] != nil{
+                
+                let resultJSON2 = resultJSON1["nearbyItems"]! as! String
+                
+                print("2: \n \(resultJSON2)")
+                
+                let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! [[String: Any]]
+                    print("json: \n \(json)")
+                    
+                    doneHandler(nil, json)
+                    
+                } catch let error as NSError {
+                    print("Failed to load: \(error.localizedDescription)")
+                    doneHandler(error, nil)
+                    
+                }
+                
+            }
+            
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
+            doneHandler(error, nil)
+        }
+        
+    }
+    // MARK: - 上傳日記用
+    func handleResponse(_ response:DataResponse<Any>,  doneHandler:UpdateDoneHandler) {
+        switch response.result {
+        case .success(let json):
+             let result = json as? Int
+                 doneHandler(nil,result)
+           
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
+            doneHandler(error, nil)
+        }
+        
+    }
+    
+    // MARK: - 上傳地標用
+    func handleResponse(_ response:DataResponse<Any>,  doneHandler:UpdateLandmarkDoneHandler) {
+        switch response.result {
+        case .success(let json):
+            let result = json as! String
+            doneHandler(nil,result)
+            
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
+            doneHandler(error, nil)
+        }
+        
+    }
+    
+    
+    //UIImage轉base64
+    func imageToBase64String(image:UIImage)->String?{
+        //轉成Data
+        guard let imageData = UIImagePNGRepresentation(image) else {
+            return nil
+        }
+        ///Data轉base64字符串
+        var base64String=imageData.base64EncodedString()
+        
+        
+        //base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue:0))
+        
+        return base64String
+    }
+    //上傳照片
+    // android的imageSize=下方來取得view的寬
+    //let screenWidth = self.view.frame.width
+    func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
+        
+        
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in switch response.result{
+        case .success(let json):
+            NSLog("doPost success with result: \(json)")
+            NSLog("\(json)")
+            doneHandler(nil,json as! Int)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
+    }
+    
+    // MARK 下載照片
+    func downloadPhotoMessage(finalFileURLString:String,parameters:Dictionary<String,Any> ,doneHandler: @escaping DownloadDoneHandler) {
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseData { (response) in switch response.result{
+        case .success(let data):
+            NSLog("Download OK:\(data.count)")
+            NSLog("\(data)")
+            doneHandler(nil,data)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
+    }
+    
+    // MARK: handleResponse (Dictionary包Dictionary型)
+    func handleResponse(_ response:DataResponse<Any>, action: String, jsonRow: Int,  doneHandler:DoneHandler2) {
+        switch response.result {
+        case .success(let json):
+            print("doPOST success with result:\n \(json)")   //json String
+            
+            let resultJSON1 = json as! [String:Any]
+            print("1: \n \(resultJSON1)")
+            var resultJSON2:String
+            if action == "getFriendList"{
+                  resultJSON2 = resultJSON1["friendList"]! as! String
+            }else if action=="MyShareAbleCateList"{
+                resultJSON2 = resultJSON1["CategorySum"]! as! String
             } else {
                 resultJSON2 = resultJSON1[action]! as! String
             }
-            print("2: \n \(resultJSON2)")
             
             let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
             
@@ -188,7 +343,7 @@ class Common {
         
         return base64String
     }
-    //上傳照片
+    // MARK:上傳照片
     // android的imageSize=下方來取得view的寬
     //let screenWidth = self.view.frame.width
     func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
@@ -198,6 +353,20 @@ class Common {
             NSLog("doPost success with result: \(json)")
             NSLog("\(json)")
             doneHandler(nil,json as! Int)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
+    }
+    
+    // MARK 下載照片
+    func downloadPhotoMessage(finalFileURLString:String,parameters:Dictionary<String,Any> ,doneHandler: @escaping DownloadDoneHandler) {
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseData { (response) in switch response.result{
+        case .success(let data):
+            NSLog("Download OK:\(data.count)")
+            NSLog("\(data)")
+            doneHandler(nil,data)
             
         case .failure(let error):
             NSLog("Download Fail:\(error)")
@@ -399,5 +568,16 @@ class Common {
         return dateformatter.string(from: date)
     }
     
+    func toJsonString<T:Encodable>(_ value: T) throws -> String {
+      let encoder = JSONEncoder()
+        guard let jsonData = try? encoder.encode(value) else{
+            return""
+        }
+        guard let jsonString = String(data: jsonData, encoding: .utf8)else {
+            return""
+        }
+        
+      return jsonString
+    }
+    
 }
-

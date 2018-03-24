@@ -11,10 +11,5 @@ import UIKit
 class ImageViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    
-    var image: Image? {
-        didSet{
-            imageView.image = image?.DiaryImage
-        }
-    }
+
 }
