@@ -46,7 +46,15 @@
 		AC89EB7E2043BA1A0059344C /* Page1.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC89EB7D2043BA1A0059344C /* Page1.storyboard */; };
 		AC89EB802043C35A0059344C /* Page2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC89EB7F2043C35A0059344C /* Page2.storyboard */; };
 		AC89EB842043C3720059344C /* Page4.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC89EB832043C3720059344C /* Page4.storyboard */; };
+		E10F3E64206210F300FB0392 /* AlreadyMatchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10F3E63206210F300FB0392 /* AlreadyMatchVC.swift */; };
+		E10F3E66206218EA00FB0392 /* empty_status.json in Resources */ = {isa = PBXBuildFile; fileRef = E10F3E65206218EA00FB0392 /* empty_status.json */; };
+		E10F3E6820622B1700FB0392 /* MatchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10F3E6720622B1700FB0392 /* MatchVC.swift */; };
 		E121B0D4205E5E2D00E3CA46 /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121B0D3205E5E2D00E3CA46 /* Friendship.swift */; };
+		E1859CFA2060E54B00218A53 /* FriendDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1859CF92060E54B00218A53 /* FriendDiaryViewController.swift */; };
+		E1859CFC206117C500218A53 /* newAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = E1859CFB206117C500218A53 /* newAnimation.json */; };
+		E1859CFE2061183100218A53 /* LottieBirthdayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1859CFD2061183100218A53 /* LottieBirthdayVC.swift */; };
+		E1EA2577206284A900C67B74 /* gift.json in Resources */ = {isa = PBXBuildFile; fileRef = E1EA2576206284A900C67B74 /* gift.json */; };
+		E1EA25792062886100C67B74 /* giftOpen.json in Resources */ = {isa = PBXBuildFile; fileRef = E1EA25782062886100C67B74 /* giftOpen.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,7 +101,15 @@
 		AC89EB7F2043C35A0059344C /* Page2.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Page2.storyboard; sourceTree = "<group>"; };
 		AC89EB832043C3720059344C /* Page4.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Page4.storyboard; sourceTree = "<group>"; };
 		C46E44C71CB03B848A709841 /* Pods-D.Life.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-D.Life.release.xcconfig"; path = "Pods/Target Support Files/Pods-D.Life/Pods-D.Life.release.xcconfig"; sourceTree = "<group>"; };
+		E10F3E63206210F300FB0392 /* AlreadyMatchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlreadyMatchVC.swift; sourceTree = "<group>"; };
+		E10F3E65206218EA00FB0392 /* empty_status.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = empty_status.json; sourceTree = "<group>"; };
+		E10F3E6720622B1700FB0392 /* MatchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchVC.swift; sourceTree = "<group>"; };
 		E121B0D3205E5E2D00E3CA46 /* Friendship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
+		E1859CF92060E54B00218A53 /* FriendDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiaryViewController.swift; sourceTree = "<group>"; };
+		E1859CFB206117C500218A53 /* newAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = newAnimation.json; sourceTree = "<group>"; };
+		E1859CFD2061183100218A53 /* LottieBirthdayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieBirthdayVC.swift; sourceTree = "<group>"; };
+		E1EA2576206284A900C67B74 /* gift.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gift.json; sourceTree = "<group>"; };
+		E1EA25782062886100C67B74 /* giftOpen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = giftOpen.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,10 +211,18 @@
 			isa = PBXGroup;
 			children = (
 				AC89EB792043B9C90059344C /* Page3VC.swift */,
+				E10F3E63206210F300FB0392 /* AlreadyMatchVC.swift */,
 				AC177F5B205AA29300DA4997 /* FriendshipTableViewCell.swift */,
+				E1EA25782062886100C67B74 /* giftOpen.json */,
+				E10F3E65206218EA00FB0392 /* empty_status.json */,
+				E1859CFD2061183100218A53 /* LottieBirthdayVC.swift */,
+				E1EA2576206284A900C67B74 /* gift.json */,
+				E1859CF92060E54B00218A53 /* FriendDiaryViewController.swift */,
+				E10F3E6720622B1700FB0392 /* MatchVC.swift */,
 				E121B0D3205E5E2D00E3CA46 /* Friendship.swift */,
 				AC177F59205AA29300DA4997 /* PhotoViewController.swift */,
 				AC177F5A205AA29300DA4997 /* TestViewController.swift */,
+				E1859CFB206117C500218A53 /* newAnimation.json */,
 				AC177F5C205AA29300DA4997 /* UIImage+Resize.swift */,
 				AC177F57205A9E1500DA4997 /* Page3.storyboard */,
 			);
@@ -289,13 +313,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1EA25792062886100C67B74 /* giftOpen.json in Resources */,
 				AC89EB802043C35A0059344C /* Page2.storyboard in Resources */,
 				AC89EB6A2043A0B80059344C /* LaunchScreen.storyboard in Resources */,
 				AC89EB7E2043BA1A0059344C /* Page1.storyboard in Resources */,
+				E1859CFC206117C500218A53 /* newAnimation.json in Resources */,
 				AC89EB672043A0B80059344C /* Assets.xcassets in Resources */,
 				AC89EB652043A0B80059344C /* Main.storyboard in Resources */,
 				AC89EB842043C3720059344C /* Page4.storyboard in Resources */,
+				E10F3E66206218EA00FB0392 /* empty_status.json in Resources */,
 				AC177F58205A9E1500DA4997 /* Page3.storyboard in Resources */,
+				E1EA2577206284A900C67B74 /* gift.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +360,7 @@
 				"${BUILT_PRODUCTS_DIR}/BSImagePicker/BSImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RKPieChart/RKPieChart.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageViewModeScaleAspect/UIImageViewModeScaleAspect.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -340,6 +369,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BSImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RKPieChart.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageViewModeScaleAspect.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -379,6 +409,8 @@
 				AC802FBC20503CCA00CC3874 /* DiaryViewVC.swift in Sources */,
 				AC802FB0204FB55900CC3874 /* ShoppingVC.swift in Sources */,
 				AC177F5F205AA29300DA4997 /* FriendshipTableViewCell.swift in Sources */,
+				E1859CFA2060E54B00218A53 /* FriendDiaryViewController.swift in Sources */,
+				E10F3E64206210F300FB0392 /* AlreadyMatchVC.swift in Sources */,
 				AC89EB7C2043B9D50059344C /* Page4VC.swift in Sources */,
 				AC802FB6204FC2C600CC3874 /* LearningVC.swift in Sources */,
 				AC89EB742043B3250059344C /* Page1VC.swift in Sources */,
@@ -388,6 +420,8 @@
 				5949A76D205F824700C03B20 /* Data+HexString.swift in Sources */,
 				9F28960D205BA131008380A7 /* DiaryTableViewCell.swift in Sources */,
 				AC802FBF2051022C00CC3874 /* DiaryViewCell.swift in Sources */,
+				E10F3E6820622B1700FB0392 /* MatchVC.swift in Sources */,
+				AC802FC72051388300CC3874 /* Image.swift in Sources */,
 				9F289609205BA131008380A7 /* DiaryModel.xcdatamodeld in Sources */,
 				AC177EEC2058F80B00DA4997 /* Common.swift in Sources */,
 				AC177F60205AA29300DA4997 /* UIImage+Resize.swift in Sources */,
@@ -400,6 +434,7 @@
 				9F28960C205BA131008380A7 /* Communicator.swift in Sources */,
 				9F28960F205BA131008380A7 /* DiaryView.swift in Sources */,
 				AC802FBA204FC31F00CC3874 /* WorkVC.swift in Sources */,
+				E1859CFE2061183100218A53 /* LottieBirthdayVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

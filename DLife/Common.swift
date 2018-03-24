@@ -47,7 +47,7 @@ class Common {
     func text(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler1) {
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
+        doPost(action: action, urlString: "http://192.168.196.113:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
@@ -55,7 +55,7 @@ class Common {
         
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
+        doPost(action: action, urlString: "http://192.168.196.113:8080/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     
     
@@ -117,9 +117,19 @@ class Common {
             
             let resultJSON1 = json as! [String:Any]
             print("1: \n \(resultJSON1)")
-            var resultJSON2 = resultJSON1[action]! as! String
-           
-            print("2: \n \(resultJSON2)")
+            var resultJSON2:String
+            if action == "getDiaryBetweenDays" {
+                resultJSON2 = resultJSON1["getDiary"]! as! String
+            } else if action == "getFriendList"{
+                  resultJSON2 = resultJSON1["friendList"]! as! String
+            }else if action=="MyShareAbleCateList"{
+                resultJSON2 = resultJSON1["CategorySum"]! as! String
+
+            }
+            
+            else {
+                resultJSON2 = resultJSON1[action]! as! String
+            }
             
             let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
             
@@ -158,7 +168,7 @@ class Common {
         
         return base64String
     }
-    //上傳照片
+    // MARK:上傳照片
     // android的imageSize=下方來取得view的寬
     //let screenWidth = self.view.frame.width
     func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
@@ -188,7 +198,7 @@ class Common {
             doneHandler(error,nil)
             }}
     }
-    
+  
     // MARK: 生成URL
     static func fileURL(fileKey: String) -> URL {
         //生成路經
