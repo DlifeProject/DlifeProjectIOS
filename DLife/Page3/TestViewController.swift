@@ -105,6 +105,21 @@ class TestViewController: UIViewController {
     }
     
     func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler1) {
+        // Prepare parameters.
+        //        guard let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
+        //            let error = NSError(domain: "Encode json data fail.", code: -1, userInfo: nil)
+        //            doneHandler(error, nil)
+        //            return
+        //        }
+        //        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
+        //            let error = NSError(domain: "Prepare json string fail.", code: -1, userInfo: nil)
+        //            doneHandler(error, nil)
+        //            return
+        //        }
+        //        let finalParameters = [DATA_KEY:jsonString]
+        //        NSLog("doPost Parameters: \(finalParameters)")
+        
+        
         // Perform Post!
         // jsonEncoding
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in

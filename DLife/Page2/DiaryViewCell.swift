@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class DiaryViewCell: UITableViewCell {
 
     @IBOutlet weak var Date: UILabel!
     @IBOutlet weak var startTime: UILabel!
@@ -17,7 +17,6 @@ class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
     @IBOutlet weak var diaryNote: UILabel!
     @IBOutlet weak var ImageView: UICollectionView!
     
-    var images = Image.all
     var height: CGFloat = 0.0
     var diary: Diary? {
         didSet{
@@ -30,32 +29,32 @@ class DiaryViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    // collectionView的東東
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        thisWidth = CGFloat(self.frame.width)
+
     }
+}
+
+extension DiaryViewCell: UICollectionViewDataSource {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return images.count
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let count = Image?.count ?? 0
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = ImageView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageViewCell
-        let image =  self.images[indexPath.row]
-        cell.image = image
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageViewCell, let images = Image else {
+            return UICollectionViewCell()
+        }
+        
+        print("images",images)
+        let imageData = images[indexPath.item]
+        cell.imageView.image = nil        
+        cell.imageView.image = imageData
+      
         return cell
     }
     
-
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        let image = Image(DiaryImage: #imageLiteral(resourceName: "ExPhoto"))
-        Image.add(image: image)
-        images = Image.all
-        ImageView.reloadData()
-    }
-    
-
-
 }
+
