@@ -10,16 +10,17 @@ import Foundation
 import UIKit
 
 extension UIImage{
-func toBase64String()->String?{
-    //轉成Data
-    guard let imageData = UIImagePNGRepresentation(self) else {
-        return nil
+    func toBase64String()->String?{
+        //轉成Data
+        guard let imageData = UIImagePNGRepresentation(self) else {
+            return nil
+        }
+        ///Data轉base64字符串
+        let base64String = imageData.base64EncodedString()
+        
+        //base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue:0))
+        
+        return base64String
     }
-    ///Data轉base64字符串
-    let base64String = imageData.base64EncodedString()
+}
 
-    //base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue:0))
-    
-    return base64String
-}
-}

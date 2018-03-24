@@ -29,6 +29,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.31.1):
     - FBSDKCoreKit (~> 4.31.1)
+  - lottie-ios (2.5.0)
   - RKPieChart (0.0.1)
   - UIImageViewModeScaleAspect (1.5)
 
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - FacebookCore
   - FacebookLogin
   - FacebookShare
+  - lottie-ios
   - RKPieChart
 
 SPEC CHECKSUMS:
@@ -51,9 +53,10 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
   FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
   FBSDKShareKit: e640c41c9fcd61929eeb3d0c21ad335103e7cb62
+  lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   RKPieChart: 8e643c505d24e61574f3a2fd6bd807403840b24b
   UIImageViewModeScaleAspect: 11a790a0b9d248a13dc63e3a78991f1463b6d84e
 
-PODFILE CHECKSUM: f488c09313d534740f03f64b749869fbd54df168
+PODFILE CHECKSUM: 9b4ecf24a8ee075184355728a52b94aed459e39e
 
 COCOAPODS: 1.4.0

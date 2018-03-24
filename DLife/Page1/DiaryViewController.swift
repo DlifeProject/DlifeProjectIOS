@@ -416,7 +416,7 @@ class DiaryViewController: UIViewController,UIImagePickerControllerDelegate,UINa
     func updateImage(sk:Int){
         for image in self.selectedUIImages{
             let maxWidthHeight:CGFloat = 350.0
-            image.resizeImage(maxWidthHeight: maxWidthHeight)
+            image.resize(maxWidthHeight: maxWidthHeight)
         let parameters:[String:Any] = ["action":"insertDiaryPhoto","account":"twodan7566@gmail.com","password":"twodan7566@gmail.com","diaryDetailSK":sk ,"imageBase64":image.toBase64String()!]
             Common.shared.textUpate(api: Common.DIARY_URL, jsonDictionary: parameters, doneHandler: { (error, result) in
                 if let error = error{

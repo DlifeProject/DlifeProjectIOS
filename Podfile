@@ -14,4 +14,5 @@ pod 'BSImagePicker'
 pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'FacebookShare'
+pod 'lottie-ios'
 end

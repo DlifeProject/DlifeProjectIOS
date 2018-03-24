@@ -14,6 +14,7 @@ import Alamofire
 // result :server傳回來的結果 回來是json就轉成字典
 typealias DoneHandler1 = (_ error:Error?, _ result:[String:Any]?) -> Void
 typealias DoneHandler2 = (_ error:Error?, _ result:[[String:Any]]?) -> Void
+typealias UpdateLandmarkDoneHandler = (_ error:Error?, _ result:String?) -> Void
 typealias DoneHandler3 = (_ error:Error?, _ result:String?) -> Void
 //下方兩個圖片用
 typealias DownloadDoneHandler = (_ error:Error?, _ result: Data?) -> Void
@@ -56,31 +57,29 @@ class Common {
         
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
     func text(api: String, jsonDictionary: Dictionary<String, Any>, jsonRow: Int , doneHandler:@escaping DoneHandler2) {
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     // MARK: - 上傳日記用
     func textUpate(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping UpdateDoneHandler) {
     
-        doPost(urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+        doPost(urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
-    // MARK: - 上傳地標用
-    func textUpateLandmark(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping UpdateLandmarkDoneHandler) {
-        
-        doPost(urlString: "http://192.168.196.135:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
-    }
-    
-    
     // MARK: 下載存文字
     func text3(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler3) {
         let action = jsonDictionary["action"] as! String
         doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
+    }
+    // MARK: - 上傳地標用
+    func textUpateLandmark(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping UpdateLandmarkDoneHandler) {
+        
+        doPost(urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     // MARK: doPost
@@ -88,29 +87,22 @@ class Common {
         
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, action: action, doneHandler: doneHandler)
-        
-            
-        }
-      
-    }
-    
-    // MARK: doPost(Dictionary包Dictionary型)
-    func doPost(action: String, urlString:String, parameters:[String:Any], jsonRow: Int, doneHandler:@escaping DoneHandler2) {
-        
-        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
-            self.handleResponse(response, action: action, jsonRow: jsonRow, doneHandler: doneHandler)
-          
         }
     }
-     // MARK: - 上傳日記用
+    // MARK: - 上傳日記用
     func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping UpdateDoneHandler) {
         
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
-            self.handleResponse(response, action: action, doneHandler: doneHandler)
+            self.handleResponse(response, doneHandler: doneHandler)
             
         }
     }
-    
+    // MARK: doPost(Dictionary包Dictionary型)
+    func doPost(action: String, urlString:String, parameters:[String:Any], jsonRow: Int, doneHandler:@escaping DoneHandler2) {
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
+            self.handleResponse(response, action: action, jsonRow: jsonRow, doneHandler: doneHandler)
+        }
+    }
     // MARK: doPost 下載存文字
     func doPost(action: String, urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler3) {
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseString { (response) in
@@ -125,6 +117,14 @@ class Common {
             let valueWithTrim = value.trimmingCharacters(in: .whitespacesAndNewlines)
             
             doneHandler(nil, valueWithTrim)
+        }
+        
+    }
+    // MARK: - 上傳地標用
+    func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping UpdateLandmarkDoneHandler) {
+        
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
+            self.handleResponse(response, doneHandler: doneHandler)
         }
     }
     
@@ -243,21 +243,6 @@ class Common {
         
     }
     
-    
-    //UIImage轉base64
-    func imageToBase64String(image:UIImage)->String?{
-        //轉成Data
-        guard let imageData = UIImagePNGRepresentation(image) else {
-            return nil
-        }
-        ///Data轉base64字符串
-        var base64String=imageData.base64EncodedString()
-        
-        
-        //base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue:0))
-        
-        return base64String
-    }
     //上傳照片
     // android的imageSize=下方來取得view的寬
     //let screenWidth = self.view.frame.width
@@ -275,59 +260,6 @@ class Common {
             doneHandler(error,nil)
             }}
     }
-    
-    // MARK 下載照片
-    func downloadPhotoMessage(finalFileURLString:String,parameters:Dictionary<String,Any> ,doneHandler: @escaping DownloadDoneHandler) {
-        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseData { (response) in switch response.result{
-        case .success(let data):
-            NSLog("Download OK:\(data.count)")
-            NSLog("\(data)")
-            doneHandler(nil,data)
-            
-        case .failure(let error):
-            NSLog("Download Fail:\(error)")
-            doneHandler(error,nil)
-            }}
-    }
-    
-    // MARK: handleResponse (Dictionary包Dictionary型)
-    func handleResponse(_ response:DataResponse<Any>, action: String, jsonRow: Int,  doneHandler:DoneHandler2) {
-        switch response.result {
-        case .success(let json):
-            print("doPOST success with result:\n \(json)")   //json String
-            
-            let resultJSON1 = json as! [String:Any]
-            print("1: \n \(resultJSON1)")
-            var resultJSON2:String
-            if action == "getFriendList"{
-                  resultJSON2 = resultJSON1["friendList"]! as! String
-            }else if action=="MyShareAbleCateList"{
-                resultJSON2 = resultJSON1["CategorySum"]! as! String
-            } else {
-                resultJSON2 = resultJSON1[action]! as! String
-            }
-            
-            let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [[String: Any]]
-                print("json: \n \(json)")
-                
-                doneHandler(nil, json)
-                
-            } catch let error as NSError {
-                print("Failed to load: \(error.localizedDescription)")
-                doneHandler(error, nil)
-                
-            }
-        
-        case .failure(let error):
-            NSLog("doPOST fail with error: \(error)")
-            doneHandler(error, nil)
-        }
-        
-    }
-
 
     //UIImage轉base64
     func imageToBase64String(image:UIImage)->String?{
@@ -342,22 +274,6 @@ class Common {
         //base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue:0))
         
         return base64String
-    }
-    // MARK:上傳照片
-    // android的imageSize=下方來取得view的寬
-    //let screenWidth = self.view.frame.width
-    func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
-        
-        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in switch response.result{
-        case .success(let json):
-            NSLog("doPost success with result: \(json)")
-            NSLog("\(json)")
-            doneHandler(nil,json as! Int)
-            
-        case .failure(let error):
-            NSLog("Download Fail:\(error)")
-            doneHandler(error,nil)
-            }}
     }
     
     // MARK 下載照片
@@ -525,9 +441,7 @@ class Common {
                 plistData.updateValue(thisValue, forKey: thisKey)
             }
         }
-        plistSave(fileURL: fileURL, dictionary: plistData)
     }
-    
     static func getDayformString(myDay:String) -> Date {
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "YYYY-MM-dd"

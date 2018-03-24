@@ -480,7 +480,7 @@
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="friendPhoto" destination="YHh-c3-mzD" id="Ehi-mz-XJS"/>
+                        <outlet property="friendPhoto" destination="YHh-c3-mzD" id="Y1V-Fs-zRX"/>
                         <outlet property="friendTypeLabel" destination="4HR-uZ-ZSM" id="if3-d2-V9r"/>
                         <outlet property="myPhoto" destination="one-Vl-bGQ" id="1dS-Mg-phy"/>
                         <outlet property="myTypeLabel" destination="2oA-Ys-HQI" id="XIq-Z7-3RP"/>
