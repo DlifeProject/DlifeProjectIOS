@@ -4,6 +4,7 @@
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sk" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <entity name="DiaryTest" representedClassName="DiaryTest" syncable="YES" codeGenerationType="class">
@@ -14,12 +15,13 @@
         <attribute name="longitude" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Key" representedClassName="Key" syncable="YES" codeGenerationType="class">
+        <attribute name="createdsk" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="diarycounts" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
+        <element name="CreateDiary" positionX="-54" positionY="27" width="128" height="120"/>
         <element name="DiaryTest" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="Key" positionX="-63" positionY="9" width="128" height="75"/>
-        <element name="CreateDiary" positionX="-54" positionY="27" width="128" height="105"/>
+        <element name="Key" positionX="-63" positionY="9" width="128" height="90"/>
     </elements>
 </model>

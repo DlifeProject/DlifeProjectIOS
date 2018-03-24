@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImage {
-    func resize(maxWidthHeight: CGFloat) -> UIImage? {
+    func resizeImage(maxWidthHeight: CGFloat) -> UIImage? {
         // Check if this image is already smaller than maxWidthHeight.
         if self.size.width < maxWidthHeight && self.size.height < maxWidthHeight {
             return self
