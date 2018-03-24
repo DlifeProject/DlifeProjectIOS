@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiaryViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class DiaryViewCell: UITableViewCell {
 
     @IBOutlet weak var Date: UILabel!
     @IBOutlet weak var startTime: UILabel!
@@ -16,10 +16,13 @@ class DiaryViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollect
     @IBOutlet weak var place: UILabel!
     @IBOutlet weak var diaryNote: UILabel!
     @IBOutlet weak var ImageView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
     
-    var images = Image.all
     var height: CGFloat = 0.0
+    var Image : [UIImage]?
+    
+    static var sk: Int!
+    var thisWidth:CGFloat = 0
+
     
     var diary: Diary? {
         didSet{
@@ -32,35 +35,32 @@ class DiaryViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollect
         }
     }
     
-    // collectionView的東東
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        thisWidth = CGFloat(self.frame.width)
+
     }
+}
+
+extension DiaryViewCell: UICollectionViewDataSource {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return images.count
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let count = Image?.count ?? 0
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = ImageView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageViewCell
-        let image =  self.images[indexPath.row]
-        cell.image = image
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? ImageViewCell, let images = Image else {
+            return UICollectionViewCell()
+        }
+        
+        print("images",images)
+        let imageData = images[indexPath.item]
+        cell.imageView.image = nil        
+        cell.imageView.image = imageData
+      
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        self.pageControl.currentPage = indexPath.section
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        let image = Image(DiaryImage: #imageLiteral(resourceName: "ExPhoto"))
-        Image.add(image: image)
-        images = Image.all
-        ImageView.reloadData()
-        pageControl.hidesForSinglePage = true
-    }
-    
-
-
 }
+

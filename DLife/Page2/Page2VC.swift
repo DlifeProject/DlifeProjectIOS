@@ -28,7 +28,7 @@ class Page2VC: UIViewController {
         Common.plistSave(fileURL: url, dictionary: dictionary)
         let b = Common.plistLoad(fileURL: url)
         print(b)
-        // Do any additional setup after loading the view.
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     override func didReceiveMemoryWarning() {

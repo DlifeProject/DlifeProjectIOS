@@ -24,9 +24,7 @@ typealias UpdateDoneHandler = (_ error:Error?, _ result:Int?) -> Void
 class Common {
     
     static let shared = Common()
-    
     private init() {
-        
     }
     static let BASEURL="http://192.168.196.171:8080/Dlife/"
     static let PHOTO_URL="photo"
@@ -36,6 +34,14 @@ class Common {
     static let SUMMARY_URL="summary"
     static let MAPAPI_URL="mapapi"
     static let FRIEND_URL="friend"
+    //static var UUID:String!
+    
+    static let PREFFERENCES_USER_ACCOUNT = "userAccount";
+    static let PREFFERENCES_USER_PASSWORD = "userPassword";
+    static let PREFFERENCES_UUID = "userUUID";
+    static let PREFFERENCES_NICKNAME = "nickname";
+    static let PREFFERENCES_USER_LAST_LOGIN_DATE = "loginDate";
+    static let PREFFERENCES_BIRTHDAY = "birthday";
     
     
     
@@ -90,7 +96,16 @@ class Common {
     func doPost(urlString:String, parameters:[String:Any], doneHandler:@escaping UpdateDoneHandler) {
         
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
-            self.handleResponse(response, doneHandler: doneHandler)
+            self.handleResponse(response, action: action, doneHandler: doneHandler)
+            
+        }
+    }
+    
+    // MARK: doPost(Dictionary包Dictionary型)
+    func doPost(action: String, urlString:String, parameters:[String:Any], jsonRow: Int, doneHandler:@escaping DoneHandler2) {
+        
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
+            self.handleResponse(response, action: action, jsonRow: jsonRow, doneHandler: doneHandler)
             
             
         }
@@ -269,6 +284,91 @@ class Common {
             }}
     }
     
+    // MARK: handleResponse (Dictionary包Dictionary型)
+    func handleResponse(_ response:DataResponse<Any>, action: String, jsonRow: Int,  doneHandler:DoneHandler2) {
+        switch response.result {
+        case .success(let json):
+            print("doPOST success with result:\n \(json)")   //json String
+            
+            let resultJSON1 = json as! [String:Any]
+            print("1: \n \(resultJSON1)")
+            var resultJSON2:String
+            if action == "getFriendList"{
+                  resultJSON2 = resultJSON1["friendList"]! as! String
+            }else if action=="MyShareAbleCateList"{
+                resultJSON2 = resultJSON1["CategorySum"]! as! String
+            } else {
+                resultJSON2 = resultJSON1[action]! as! String
+            }
+            
+            let data = resultJSON2.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [[String: Any]]
+                print("json: \n \(json)")
+                
+                doneHandler(nil, json)
+                
+            } catch let error as NSError {
+                print("Failed to load: \(error.localizedDescription)")
+                doneHandler(error, nil)
+                
+            }
+            
+            
+        case .failure(let error):
+            NSLog("doPOST fail with error: \(error)")
+            doneHandler(error, nil)
+        }
+        
+    }
+    
+    
+    //UIImage轉base64
+    func imageToBase64String(image:UIImage)->String?{
+        //轉成Data
+        guard let imageData = UIImagePNGRepresentation(image) else {
+            return nil
+        }
+        ///Data轉base64字符串
+        var base64String=imageData.base64EncodedString()
+        
+        
+        //base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue:0))
+        
+        return base64String
+    }
+    // MARK:上傳照片
+    // android的imageSize=下方來取得view的寬
+    //let screenWidth = self.view.frame.width
+    func updatePhoto(_ finalFileURLString:String,_ parameters:Dictionary<String,Any>,doneHandler:@escaping UpdateDoneHandler) {
+        
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in switch response.result{
+        case .success(let json):
+            NSLog("doPost success with result: \(json)")
+            NSLog("\(json)")
+            doneHandler(nil,json as! Int)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
+    }
+    
+    // MARK 下載照片
+    func downloadPhotoMessage(finalFileURLString:String,parameters:Dictionary<String,Any> ,doneHandler: @escaping DownloadDoneHandler) {
+        Alamofire.request(finalFileURLString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseData { (response) in switch response.result{
+        case .success(let data):
+            NSLog("Download OK:\(data.count)")
+            NSLog("\(data)")
+            doneHandler(nil,data)
+            
+        case .failure(let error):
+            NSLog("Download Fail:\(error)")
+            doneHandler(error,nil)
+            }}
+    }
+  
     // MARK: 生成URL
     static func fileURL(fileKey: String) -> URL {
         //生成路經
@@ -304,6 +404,65 @@ class Common {
         
         return json
     }
+    
+    // Mark: plist defalut file 讀取 - Regan
+    static func plistLoadDefault(fileKey: String, dictionary: Dictionary<String, Any>) -> Dictionary<String, Any> {
+        
+        //prepare file name
+        let fileURL = self.fileURL(fileKey: fileKey)
+        
+        //returnJsonObject
+        var returnJsonObject:Dictionary<String, Any>
+        
+        if let retrievedData = try? Data(contentsOf: fileURL) {
+            // has file to read
+            NSLog("plist has file \(fileURL)")
+            // to load the file
+            if let thisJsonObject = try? JSONSerialization.jsonObject(with: retrievedData, options: .mutableContainers) as! Dictionary<String, Any> {
+                returnJsonObject = thisJsonObject
+            } else {
+                NSLog("Read plist has file \(fileURL) to dictionary err")
+                returnJsonObject = dictionary
+            }
+           
+        } else {
+            // has no file to create one
+            NSLog("plist has no file \(fileURL)")
+            if let dataExample = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted) {
+                 try! dataExample.write(to: fileURL, options: .noFileProtection)
+            }
+            returnJsonObject = dictionary
+           
+        }
+        return returnJsonObject
+    }
+    
+    static func getJSONStringFromDictionary(dictionary:NSDictionary) -> String {
+        if (!JSONSerialization.isValidJSONObject(dictionary)) {
+            NSLog("無法解析JSONString")
+            return ""
+        }
+        let data : NSData! = try? JSONSerialization.data(withJSONObject: dictionary, options: []) as NSData!
+        let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
+        return JSONString! as String
+    }
+
+   
+    static func updateMemberPlistDefault(fileKey: String, dictionary: Dictionary<String, Any>) -> () {
+        //prepare file name
+        let fileURL = self.fileURL(fileKey: fileKey)
+        var plistData = plistLoad(fileURL: fileURL)
+        
+        for(key,value) in dictionary {
+            if let thisKey = key as? String, let thisValue = value as? String {
+                plistData.updateValue(thisValue, forKey: thisKey)
+            }
+        }
+        plistSave(fileURL: fileURL, dictionary: plistData)
+        
+    }
+    
+    
     
     // MARK: 製作基本Dictionary
     static func DictionaryMake(action: String, account: String, password: String) -> Dictionary<String, Any> {
