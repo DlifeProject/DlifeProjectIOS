@@ -14,6 +14,7 @@ import Alamofire
 // result :server傳回來的結果 回來是json就轉成字典
 typealias DoneHandler1 = (_ error:Error?, _ result:[String:Any]?) -> Void
 typealias DoneHandler2 = (_ error:Error?, _ result:[[String:Any]]?) -> Void
+typealias DoneHandler3 = (_ error:Error?, _ result:String?) -> Void
 //下方兩個圖片用
 typealias DownloadDoneHandler = (_ error:Error?, _ result: Data?) -> Void
 typealias UpdateDoneHandler = (_ error:Error?, _ result:Int?) -> Void
@@ -26,7 +27,7 @@ class Common {
     }
     
     //static let BASEURL="http://114.34.110.248:7070/Dlife/"
-    static let BASEURL="http://192.168.196.86:8080/Dlife/"
+    static let BASEURL="http://192.168.196.153:8080/Dlife/"
     static let PHOTO_URL="photo"
     static let TEST_URL="test"
     static let DIARY_URL="diary"
@@ -34,7 +35,9 @@ class Common {
     static let SUMMARY_URL="summary"
     static let MAPAPI_URL="mapapi"
     static let FRIEND_URL="friend"
-    //static var UUID:String!
+    
+    static let MEMBERFILE = "memberProfile"
+    static let MEMBERFILEPATH = Common.fileURL(fileKey: MEMBERFILE)
     
     static let PREFFERENCES_USER_ACCOUNT = "userAccount";
     static let PREFFERENCES_USER_PASSWORD = "userPassword";
@@ -42,6 +45,8 @@ class Common {
     static let PREFFERENCES_NICKNAME = "nickname";
     static let PREFFERENCES_USER_LAST_LOGIN_DATE = "loginDate";
     static let PREFFERENCES_BIRTHDAY = "birthday";
+    //static var UUID:String!
+    static let GENDERARRAY = ["Lady","Man","?"]
     
     
     
@@ -53,11 +58,15 @@ class Common {
     
     // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
     func text(api: String, jsonDictionary: Dictionary<String, Any>, jsonRow: Int , doneHandler:@escaping DoneHandler2) {
-        
         let action = jsonDictionary["action"] as! String
         doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     
+    // MARK: 下載存文字
+    func text3(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler3) {
+        let action = jsonDictionary["action"] as! String
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
+    }
     
     // MARK: doPost
     func doPost(action: String, urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler1) {
@@ -74,6 +83,23 @@ class Common {
         Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             self.handleResponse(response, action: action, jsonRow: jsonRow, doneHandler: doneHandler)
             
+        }
+    }
+    
+    // MARK: doPost 下載存文字
+    func doPost(action: String, urlString:String, parameters:[String:Any], doneHandler:@escaping DoneHandler3) {
+        Alamofire.request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseString { (response) in
+            guard response.result.isSuccess else {
+                print("Error \(action) -> \(urlString): \(String(describing: response.result.error))")
+                return
+            }
+            guard let value = response.result.value else {
+                print("Error \(action) -> \(urlString): \(String(describing: response.result.value))")
+                return
+            }
+            let valueWithTrim = value.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            doneHandler(nil, valueWithTrim)
         }
     }
     
@@ -139,16 +165,15 @@ class Common {
                 doneHandler(error, nil)
                 
             }
-            
-            
+        
         case .failure(let error):
             NSLog("doPOST fail with error: \(error)")
             doneHandler(error, nil)
         }
         
     }
-    
-    
+
+
     //UIImage轉base64
     func imageToBase64String(image:UIImage)->String?{
         //轉成Data
@@ -201,7 +226,6 @@ class Common {
         print("存檔於: " + fileURL.absoluteString)
         // 將編碼後的資料儲存到路徑
         try? dataExample.write(to: fileURL, options: .noFileProtection)
-        
     }
     
     
@@ -216,6 +240,17 @@ class Common {
         return json
     }
     
+    // MARK: 製作基本Dictionary
+    static func DictionaryMake(action: String, account: String, password: String) -> Dictionary<String, Any> {
+        var dictionary: Dictionary<String, Any> = ["0": 0]
+        dictionary.updateValue(action, forKey: "action")
+        dictionary.updateValue(account, forKey: "account")
+        dictionary.updateValue(password, forKey: "password")
+        dictionary.removeValue(forKey: "0")
+        return dictionary
+
+    }
+
     // Mark: plist defalut file 讀取 - Regan
     static func plistLoadDefault(fileKey: String, dictionary: Dictionary<String, Any>) -> Dictionary<String, Any> {
         
@@ -235,17 +270,71 @@ class Common {
                 NSLog("Read plist has file \(fileURL) to dictionary err")
                 returnJsonObject = dictionary
             }
-           
+            
         } else {
             // has no file to create one
             NSLog("plist has no file \(fileURL)")
             if let dataExample = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted) {
-                 try! dataExample.write(to: fileURL, options: .noFileProtection)
+                try! dataExample.write(to: fileURL, options: .noFileProtection)
             }
             returnJsonObject = dictionary
-           
+            
         }
         return returnJsonObject
+    }
+    static func plistLoadDefault(fileKey: String) -> Dictionary<String, Any> {
+        
+        //prepare file name
+        let fileURL = self.fileURL(fileKey: fileKey)
+
+        //returnJsonObject
+        var returnJsonObject = Dictionary<String, Any>()
+        
+        if let retrievedData = try? Data(contentsOf: fileURL) {
+            // has file to read
+            NSLog("plist has file \(fileURL)")
+            // to load the file
+            if let thisJsonObject = try? JSONSerialization.jsonObject(with: retrievedData, options: .mutableContainers) as! Dictionary<String, Any> {
+                returnJsonObject = thisJsonObject
+            } else {
+                NSLog("Read plist has file \(fileURL) to dictionary err")
+            }
+        }
+        return returnJsonObject
+    }
+    static func getUserAccount() -> String {
+        
+        guard let retrievedData = try? Data(contentsOf: self.MEMBERFILEPATH) else {
+            NSLog("loading error : \(self.MEMBERFILEPATH)")
+            return ""
+        }
+        guard let thisJsonObject = try? JSONSerialization.jsonObject(with: retrievedData, options: .mutableContainers) as! Dictionary<String, Any> else {
+            NSLog("getUserAccount jsonObject error")
+            return ""
+        }
+        
+        guard let account = thisJsonObject[self.PREFFERENCES_USER_ACCOUNT] as? String else {
+            NSLog("account to String error")
+            return ""
+        }
+        return account
+    }
+    static func getUserPassword() -> String {
+        
+        guard let retrievedData = try? Data(contentsOf: self.MEMBERFILEPATH) else {
+            NSLog("loading error : \(self.MEMBERFILEPATH)")
+            return ""
+        }
+        guard let thisJsonObject = try? JSONSerialization.jsonObject(with: retrievedData, options: .mutableContainers) as! Dictionary<String, Any> else {
+            NSLog("getUserPassword jsonObject error")
+            return ""
+        }
+        
+        guard let password = thisJsonObject[self.PREFFERENCES_USER_PASSWORD] as? String else {
+            NSLog("getUserPassword to String error")
+            return ""
+        }
+        return password
     }
     
     static func getJSONStringFromDictionary(dictionary:NSDictionary) -> String {
@@ -257,9 +346,7 @@ class Common {
         let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
         return JSONString! as String
     }
-
-   
-    static func updateMemberPlistDefault(fileKey: String, dictionary: Dictionary<String, Any>) -> () {
+    static func updateMemberPlistDefault(fileKey: String = MEMBERFILE, dictionary: Dictionary<String, Any>) -> () {
         //prepare file name
         let fileURL = self.fileURL(fileKey: fileKey)
         var plistData = plistLoad(fileURL: fileURL)
@@ -270,21 +357,46 @@ class Common {
             }
         }
         plistSave(fileURL: fileURL, dictionary: plistData)
-        
     }
     
-    
-    
-    // MARK: 製作基本Dictionary
-    static func DictionaryMake(action: String, account: String, password: String) -> Dictionary<String, Any> {
-        var dictionary: Dictionary<String, Any> = ["0": 0]
-        dictionary.updateValue(action, forKey: "action")
-        dictionary.updateValue(account, forKey: "account")
-        dictionary.updateValue(password, forKey: "password")
-        dictionary.removeValue(forKey: "0")
-        
-        return dictionary
-        
+    static func getDayformString(myDay:String) -> Date {
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "YYYY-MM-dd"
+        return dateformatter.date(from: myDay)!
+    }
+    static func getDateformString(myDate:String) -> Date {
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        return dateformatter.date(from: myDate)!
+    }
+    static func getDayfromSetYear(offset:Int) -> String {
+        let currentdate = Date()
+        let calculatedDate = Calendar.current.date(byAdding: Calendar.Component.year, value: -offset, to: currentdate)
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "YYYY-MM-dd"
+        return dateformatter.string(from: calculatedDate!)
+    }
+    static func getNowDate() -> String {
+        let currentdate = Date()
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        return dateformatter.string(from: currentdate)
+    }
+    static func getNowDay() -> String {
+        let currentdate = Date()
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "YYYY-MM-dd"
+        return dateformatter.string(from: currentdate)
+    }
+    static func paserDateToDay(date:Date) -> String {
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "YYYY-MM-dd"
+        return dateformatter.string(from: date)
+    }
+    static func paserDateToDate(date:Date) -> String {
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        return dateformatter.string(from: date)
     }
     
 }

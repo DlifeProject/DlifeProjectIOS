@@ -8,19 +8,35 @@
 
 import UIKit
 import Alamofire
+import FacebookCore
+import FacebookLogin
+import FBSDKLoginKit
 
 class Login: UIViewController,UITextFieldDelegate {
     
-    static let MEMBERFILE = "memberprofile"
-    static let MEMBERFILEPATH = Common.fileURL(fileKey: MEMBERFILE)
     var memberProfileDictionary = [String:Any]()
+    var FBDict : [String : AnyObject]!
+    var FriendDict : [String : AnyObject]!
     var keyboardHeight:CGFloat = 0
     let keyboardHeightOffset:CGFloat = 100
 
     @IBOutlet weak var buttomConstraint: NSLayoutConstraint!
     @IBOutlet weak var tfAccount: UITextField!
     @IBOutlet weak var tfPassword: UITextField!
-    
+    @IBAction func FacebookLoginBT(_ sender: UIButton) {
+        let loginManager = LoginManager()
+        
+        loginManager.logIn(readPermissions: [.userFriends,.publicProfile], viewController : self) { loginResult in
+            switch loginResult {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled login")
+            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+                self.getFBUserData()
+            }
+        }
+    }
     @IBAction func loginBtn(_ sender: Any) {
         
         guard let myAccount = tfAccount.text else {
@@ -30,6 +46,35 @@ class Login: UIViewController,UITextFieldDelegate {
             return
         }
         webLogin(myAccount, password: myPassword)
+    }
+    //function is fetching the user data
+    func getFBUserData(){
+        
+        
+        if((FBSDKAccessToken.current()) != nil){
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email,first_name, last_name, friends"]).start(completionHandler: { (connection, result, error) -> Void in
+                if (error == nil){
+                    self.FBDict = result as! [String : AnyObject]
+                    print(result!)
+                    print(self.FBDict)
+                    
+                }else{
+                    self.FBDict = result as! [String : AnyObject]
+                    print(result!)
+                    print(self.FBDict)
+
+                }
+            })
+            let friendParams = ["fields": "id, name, email"]
+            let fbRequestFriends: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "/me/friends", parameters: friendParams)
+            fbRequestFriends.start { (connection, result, error) in
+                if error == nil && result != nil {
+                    print("Request Friends result : \(result!)")
+                } else {
+                    print("Error \(String(describing: error))")
+                }
+            }
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -58,6 +103,7 @@ class Login: UIViewController,UITextFieldDelegate {
             if isLogin {
                 self.tfAccount.text = ""
                 self.tfPassword.text = ""
+                self.memberProfileDictionary.updateValue(Common.getNowDate(), forKey: Common.PREFFERENCES_USER_LAST_LOGIN_DATE)
                 Common.updateMemberPlistDefault(fileKey: "memberProfile",dictionary: self.memberProfileDictionary)
                 if let checkVC = self.storyboard?.instantiateViewController(withIdentifier: "indexController") {
                     self.present(checkVC, animated: false, completion: nil)
@@ -91,6 +137,10 @@ class Login: UIViewController,UITextFieldDelegate {
     @IBAction func resetBtn(_ sender: Any) {
         tfAccount.text = ""
         tfPassword.text = ""
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut()
+        FBSDKAccessToken.setCurrent(nil)
+
     }
     
     @IBAction func reganBtn(_ sender: Any) {
@@ -124,6 +174,9 @@ class Login: UIViewController,UITextFieldDelegate {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(moveTextFieldUp(aNotification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        
+
+    
     }
     
     @objc func moveTextFieldUp(aNotification:Notification){

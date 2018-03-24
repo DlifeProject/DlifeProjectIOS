@@ -11,5 +11,7 @@ target 'D.Life' do
 pod 'RKPieChart'
 pod 'Alamofire'
 pod 'BSImagePicker'
-
+pod 'FacebookCore'
+pod 'FacebookLogin'
+pod 'FacebookShare'
 end

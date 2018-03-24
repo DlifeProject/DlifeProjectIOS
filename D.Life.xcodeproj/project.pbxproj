@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5949A76D205F824700C03B20 /* Data+HexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5949A76C205F824700C03B20 /* Data+HexString.swift */; };
+		59533229205FD53200B35045 /* PersonalPrefileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59533228205FD53200B35045 /* PersonalPrefileVC.swift */; };
+		59A235E72060BD53009D3B94 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A235E62060BD53009D3B94 /* ChangePasswordVC.swift */; };
+		59A235E92060BDAF009D3B94 /* NicknameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A235E82060BDAF009D3B94 /* NicknameVC.swift */; };
+		59A235EB2060BEDF009D3B94 /* BirthdayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A235EA2060BEDF009D3B94 /* BirthdayVC.swift */; };
+		59A235ED2060C162009D3B94 /* GenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A235EC2060C162009D3B94 /* GenderVC.swift */; };
+		59A235EF2060C17C009D3B94 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A235EE2060C17C009D3B94 /* LoginVC.swift */; };
 		59BB0BB0205BC21800DDADA1 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BB0BAF205BC21800DDADA1 /* Login.swift */; };
 		9F289609205BA131008380A7 /* DiaryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F2895FE205BA130008380A7 /* DiaryModel.xcdatamodeld */; };
 		9F28960A205BA131008380A7 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F289600205BA130008380A7 /* DiaryViewController.swift */; };
@@ -52,6 +58,12 @@
 
 /* Begin PBXFileReference section */
 		5949A76C205F824700C03B20 /* Data+HexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+HexString.swift"; sourceTree = "<group>"; };
+		59533228205FD53200B35045 /* PersonalPrefileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalPrefileVC.swift; sourceTree = "<group>"; };
+		59A235E62060BD53009D3B94 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
+		59A235E82060BDAF009D3B94 /* NicknameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameVC.swift; sourceTree = "<group>"; };
+		59A235EA2060BEDF009D3B94 /* BirthdayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayVC.swift; sourceTree = "<group>"; };
+		59A235EC2060C162009D3B94 /* GenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderVC.swift; sourceTree = "<group>"; };
+		59A235EE2060C17C009D3B94 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		59BB0BAF205BC21800DDADA1 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		7834C33195BE8244797910C8 /* Pods_D_Life.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_D_Life.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F2895FF205BA130008380A7 /* DiaryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryModel.xcdatamodel; sourceTree = "<group>"; };
@@ -213,6 +225,12 @@
 			children = (
 				AC89EB7B2043B9D50059344C /* Page4VC.swift */,
 				AC89EB832043C3720059344C /* Page4.storyboard */,
+				59533228205FD53200B35045 /* PersonalPrefileVC.swift */,
+				59A235E62060BD53009D3B94 /* ChangePasswordVC.swift */,
+				59A235E82060BDAF009D3B94 /* NicknameVC.swift */,
+				59A235EA2060BEDF009D3B94 /* BirthdayVC.swift */,
+				59A235EC2060C162009D3B94 /* GenderVC.swift */,
+				59A235EE2060C17C009D3B94 /* LoginVC.swift */,
 			);
 			path = Page4;
 			sourceTree = "<group>";
@@ -333,6 +351,13 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BSGridCollectionViewLayout/BSGridCollectionViewLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/BSImagePicker/BSImagePicker.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
 				"${BUILT_PRODUCTS_DIR}/RKPieChart/RKPieChart.framework",
 				"${BUILT_PRODUCTS_DIR}/UIImageViewModeScaleAspect/UIImageViewModeScaleAspect.framework",
 			);
@@ -341,6 +366,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BSGridCollectionViewLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BSImagePicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RKPieChart.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageViewModeScaleAspect.framework",
 			);
@@ -371,6 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59533229205FD53200B35045 /* PersonalPrefileVC.swift in Sources */,
 				9F289611205BA131008380A7 /* CoredataManger.swift in Sources */,
 				AC802FAE204FB52A00CC3874 /* PieChartVC.swift in Sources */,
 				AC89EB602043A0B80059344C /* AppDelegate.swift in Sources */,
@@ -378,6 +411,7 @@
 				AC89EB7A2043B9C90059344C /* Page3VC.swift in Sources */,
 				E121B0D4205E5E2D00E3CA46 /* Friendship.swift in Sources */,
 				AC89EB782043B9B80059344C /* Page2VC.swift in Sources */,
+				59A235EB2060BEDF009D3B94 /* BirthdayVC.swift in Sources */,
 				9F28960A205BA131008380A7 /* DiaryViewController.swift in Sources */,
 				AC802FBC20503CCA00CC3874 /* DiaryViewVC.swift in Sources */,
 				AC802FB0204FB55900CC3874 /* ShoppingVC.swift in Sources */,
@@ -390,17 +424,21 @@
 				AC177F5E205AA29300DA4997 /* TestViewController.swift in Sources */,
 				5949A76D205F824700C03B20 /* Data+HexString.swift in Sources */,
 				9F28960D205BA131008380A7 /* DiaryTableViewCell.swift in Sources */,
+				59A235ED2060C162009D3B94 /* GenderVC.swift in Sources */,
 				AC802FBF2051022C00CC3874 /* DiaryViewCell.swift in Sources */,
 				AC802FC72051388300CC3874 /* Image.swift in Sources */,
 				9F289609205BA131008380A7 /* DiaryModel.xcdatamodeld in Sources */,
 				AC177EEC2058F80B00DA4997 /* Common.swift in Sources */,
 				AC177F60205AA29300DA4997 /* UIImage+Resize.swift in Sources */,
+				59A235E72060BD53009D3B94 /* ChangePasswordVC.swift in Sources */,
+				59A235E92060BDAF009D3B94 /* NicknameVC.swift in Sources */,
 				AC802FC12051154800CC3874 /* Diary.swift in Sources */,
 				AC802FC52051334500CC3874 /* ImageViewCell.swift in Sources */,
 				AC802FB4204FC16400CC3874 /* HobbyVC.swift in Sources */,
 				AC802FB8204FC2F400CC3874 /* TravelVC.swift in Sources */,
 				AC177F5D205AA29300DA4997 /* PhotoViewController.swift in Sources */,
 				9F28960E205BA131008380A7 /* PhotoCollectionViewCell.swift in Sources */,
+				59A235EF2060C17C009D3B94 /* LoginVC.swift in Sources */,
 				9F28960C205BA131008380A7 /* Communicator.swift in Sources */,
 				9F28960F205BA131008380A7 /* DiaryView.swift in Sources */,
 				AC802FBA204FC31F00CC3874 /* WorkVC.swift in Sources */,
