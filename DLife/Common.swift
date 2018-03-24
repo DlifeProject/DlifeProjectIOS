@@ -24,7 +24,7 @@ class Common {
     static let shared = Common()
     private init() {
     }
-    static let BASEURL="http://192.168.196.128:8080/Dlife/"
+    static let BASEURL="http://192.168.196.135:8080/Dlife/"
     static let PHOTO_URL="photo"
     static let TEST_URL="test"
     static let DIARY_URL="diary"
