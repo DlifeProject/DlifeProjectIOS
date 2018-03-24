@@ -18,6 +18,12 @@ class DiaryViewCell: UITableViewCell {
     @IBOutlet weak var ImageView: UICollectionView!
     
     var height: CGFloat = 0.0
+    var Image : [UIImage]?
+    
+    static var sk: Int!
+    var thisWidth:CGFloat = 0
+
+    
     var diary: Diary? {
         didSet{
             Date.text = diary?.Date

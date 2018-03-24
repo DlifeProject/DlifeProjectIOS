@@ -63,7 +63,7 @@ class MatchVC: UIViewController {
             for i in 0..<self.myCategoryPhotoSKList.count{
                 
                 let photoParameters:[String:Any]=["action":"getImage","account":"irv278@gmail.com","password":"Regan","imageSize":UIScreen.main.bounds.size.width,"id":self.myCategoryPhotoSKList[i].photoSK]
-                Common.shared.downloadPhotoMessage(finalFileURLString: "http://192.168.196.113:8080/Dlife/photo", parameters: photoParameters, doneHandler: { (error, data) in
+                Common.shared.downloadPhotoMessage(finalFileURLString: Common.BASEURL + Common.PHOTO_URL, parameters: photoParameters, doneHandler: { (error, data) in
                     if let error=error{
                         NSLog("downloadPhoto fail: \(error)")
                         

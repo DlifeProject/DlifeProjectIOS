@@ -47,7 +47,7 @@ class Common {
     func text(api: String, jsonDictionary: Dictionary<String, Any>, doneHandler:@escaping DoneHandler1) {
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://192.168.196.113:8080/Dlife/" + api, parameters: jsonDictionary, doneHandler: doneHandler)
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, doneHandler: doneHandler)
     }
     
     // MARK: 上傳下載文字Dictionary(Dictionary包Dictionary型)
@@ -55,7 +55,7 @@ class Common {
         
         let action = jsonDictionary["action"] as! String
         
-        doPost(action: action, urlString: "http://192.168.196.113:8080/Dlife/" + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
+        doPost(action: action, urlString: Common.BASEURL + api, parameters: jsonDictionary, jsonRow: jsonRow, doneHandler: doneHandler)
     }
     
     
@@ -118,16 +118,11 @@ class Common {
             let resultJSON1 = json as! [String:Any]
             print("1: \n \(resultJSON1)")
             var resultJSON2:String
-            if action == "getDiaryBetweenDays" {
-                resultJSON2 = resultJSON1["getDiary"]! as! String
-            } else if action == "getFriendList"{
+            if action == "getFriendList"{
                   resultJSON2 = resultJSON1["friendList"]! as! String
             }else if action=="MyShareAbleCateList"{
                 resultJSON2 = resultJSON1["CategorySum"]! as! String
-
-            }
-            
-            else {
+            } else {
                 resultJSON2 = resultJSON1[action]! as! String
             }
             

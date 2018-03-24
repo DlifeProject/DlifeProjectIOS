@@ -301,6 +301,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zF1-hf-lXt">
                                 <rect key="frame" x="0.0" y="20" width="375" height="318"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -334,6 +335,7 @@
                         <outlet property="exPhoto" destination="zF1-hf-lXt" id="hQu-aF-J1d"/>
                         <outlet property="label" destination="5Sz-Qz-YwK" id="jae-4c-zdu"/>
                         <outlet property="label2" destination="vvX-wS-dR0" id="miL-HF-gCm"/>
+                        <outlet property="loadingLabel" destination="q2p-BY-2JS" id="wGF-Vh-po3"/>
                         <outlet property="month" destination="vSO-j7-Gl6" id="tdn-kr-jU9"/>
                         <outlet property="sevenDay" destination="4Np-7B-h5F" id="n3T-Yk-eKS"/>
                         <outlet property="threeDay" destination="I8P-cR-maB" id="TeF-oe-Clq"/>
@@ -495,6 +497,7 @@
                         <outlet property="exPhoto" destination="Ygb-IC-rrc" id="TPV-4k-ekz"/>
                         <outlet property="label" destination="Dr5-xB-q3m" id="IjV-9X-BaC"/>
                         <outlet property="label2" destination="anV-lh-whK" id="ief-70-xXe"/>
+                        <outlet property="loadingLabel" destination="hgx-LB-L7P" id="jah-gE-wOw"/>
                         <outlet property="month" destination="FOy-DV-77P" id="I29-Pr-578"/>
                         <outlet property="sevenDay" destination="fI2-kj-cF6" id="Bvm-A5-mrl"/>
                         <outlet property="threeDay" destination="iPi-iC-lMd" id="gcl-WQ-M5v"/>
@@ -656,6 +659,7 @@
                         <outlet property="exPhoto" destination="BUa-dG-B8N" id="Oa0-BM-IYv"/>
                         <outlet property="label" destination="zOS-X8-Ete" id="TJ7-51-Tti"/>
                         <outlet property="label2" destination="G4S-KD-yOs" id="dNA-G2-PwX"/>
+                        <outlet property="loadingLabel" destination="UnW-gl-48v" id="r4L-0W-Esu"/>
                         <outlet property="month" destination="hmC-cp-tAo" id="EJ4-7a-knd"/>
                         <outlet property="sevenDay" destination="81w-9d-dUy" id="dFj-6b-Qi4"/>
                         <outlet property="threeDay" destination="XQ4-56-3te" id="kfT-nc-miz"/>
@@ -1004,6 +1008,7 @@
                         <outlet property="exPhoto" destination="9M0-Yi-T75" id="Utm-ab-Nil"/>
                         <outlet property="label" destination="7vX-rc-TY8" id="oaH-X7-sbk"/>
                         <outlet property="label2" destination="24y-IA-diN" id="NgH-ey-FQD"/>
+                        <outlet property="loadingLabel" destination="uLb-tp-yf6" id="q0m-EE-Ilq"/>
                         <outlet property="month" destination="PJb-za-drS" id="JN2-PL-I0F"/>
                         <outlet property="sevenDay" destination="swu-CB-Oqm" id="Ay8-Cs-Rsg"/>
                         <outlet property="threeDay" destination="S2Z-6i-D9Y" id="fbr-QY-oxu"/>
@@ -1165,6 +1170,7 @@
                         <outlet property="exPhoto" destination="db1-ri-DDs" id="I9n-pc-Skk"/>
                         <outlet property="label" destination="aum-aK-LM7" id="nu4-al-q2K"/>
                         <outlet property="label2" destination="yFc-TO-Dh6" id="7aY-vW-JaH"/>
+                        <outlet property="loadingLabel" destination="h7I-aZ-HH3" id="rVN-p1-jN2"/>
                         <outlet property="month" destination="tPC-6U-e2X" id="smb-Wa-bTc"/>
                         <outlet property="sevenDay" destination="dWs-1s-QzB" id="UOf-h2-R2E"/>
                         <outlet property="threeDay" destination="XQf-lz-KfH" id="aOM-vC-AsI"/>
